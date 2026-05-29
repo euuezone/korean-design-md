@@ -1,0 +1,4729 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Korean Design MD — 국내 서비스 디자인 레퍼런스</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #ffffff;
+  --surface:     #f7f8fa;
+  --border:      #dee1e6;
+  --border-hi:   #c8cdd6;
+  --text-1:      #0a0b0d;
+  --text-2:      #5b616e;
+  --text-3:      #a8acb3;
+  --accent:      #0052ff;
+  --accent-dim:  rgba(0,82,255,0.07);
+  --accent-line: rgba(0,82,255,0.20);
+  --sans:        'Inter', -apple-system, system-ui, sans-serif;
+  --mono:        'JetBrains Mono', monospace;
+  --ease:        cubic-bezier(0.16,1,0.3,1);
+}
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text-1);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+.site-header {
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 100;
+}
+.header-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.site-logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-1);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.logo-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.3; transform:scale(0.6); } }
+.header-stats {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-3);
+  display: flex;
+  gap: 20px;
+}
+.header-stats span { color: var(--text-2); font-weight: 600; }
+
+/* ── Hero ── */
+.hero {
+  padding: 64px 40px 48px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.hero-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.hero-title {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: var(--text-1);
+  margin-bottom: 20px;
+}
+.hero-title em { color: var(--accent); font-style: normal; }
+.hero-desc {
+  font-size: 15px;
+  color: var(--text-2);
+  line-height: 1.7;
+  max-width: 500px;
+}
+.hero-desc strong { color: var(--text-1); font-weight: 600; }
+
+/* ── Filter ── */
+.filter-bar {
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 60px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 90;
+}
+.filter-inner {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.filter-inner::-webkit-scrollbar { display: none; }
+.filter-btn {
+  background: none;
+  border: none;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+  padding: 16px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.filter-btn:hover { color: var(--text-2); }
+.filter-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+/* ── Grid ── */
+.grid-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 40px 80px;
+}
+.grid-empty {
+  padding: 80px 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-3);
+  letter-spacing: 0.06em;
+  display: none;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+/* ── Card ── */
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.15s, box-shadow 0.2s;
+}
+.card.is-extracted:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.card.is-extracted { cursor: pointer; }
+.card.is-extracted:hover .card-screenshot { transform: scale(1.03); }
+
+.card-thumb {
+  height: 168px;
+  background: var(--surface);
+  position: relative;
+  overflow: hidden;
+}
+.card-screenshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  transition: transform 0.4s var(--ease);
+}
+.card-accent-line {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 1;
+}
+.card-logo-badge {
+  position: absolute;
+  bottom: 10px;
+  left: 12px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,0.08);
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-logo {
+  max-height: 20px;
+  max-width: 80px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+.card-swatches {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+.swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.10);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+}
+
+.card-body { padding: 14px 20px 18px; }
+.card-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-meta { display: flex; align-items: center; gap: 8px; }
+.cat-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 3px 7px;
+  border: 1px solid var(--border);
+  color: var(--text-3);
+  text-transform: uppercase;
+}
+.cat-tag.ready {
+  border-color: var(--accent-line);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+.card-date {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-3);
+  margin-left: auto;
+}
+.card-ext-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--text-3);
+  text-decoration: none;
+  margin-left: 6px;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.card-ext-link:hover { color: var(--accent); }
+
+/* Pending overlay */
+.pending-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+.soon-badge {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--text-3);
+  border: 1px solid var(--border);
+  padding: 5px 12px;
+  background: var(--bg);
+  text-transform: uppercase;
+}
+
+/* ── Modal ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,11,13,0.55);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s var(--ease);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 700px;
+  max-height: 86vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(20px);
+  transition: transform 0.3s var(--ease);
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-top-band {
+  height: 6px;
+  flex-shrink: 0;
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.modal-color-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.modal-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+}
+.modal-cat {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border: 1px solid var(--accent-line);
+  color: var(--accent);
+  background: var(--accent-dim);
+  text-transform: uppercase;
+}
+.modal-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-dl {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.btn-dl:hover { opacity: 0.85; }
+.btn-close {
+  background: none;
+  border: 1px solid var(--border);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-3);
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-close:hover { color: var(--text-1); border-color: var(--border-hi); }
+
+.modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 24px;
+}
+
+/* DESIGN.md renderer */
+.md-content { font-family: var(--mono); font-size: 12.5px; line-height: 1.9; color: var(--text-2); }
+.md-h1 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-1);
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+  font-family: var(--sans);
+}
+.md-h2 {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-top: 28px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--accent-line);
+}
+.md-row {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  padding: 3px 0;
+  gap: 8px;
+}
+.md-key { color: var(--text-3); }
+.md-val { color: var(--text-1); display: flex; align-items: center; gap: 6px; }
+.color-chip {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid rgba(0,0,0,0.08);
+  flex-shrink: 0;
+}
+.md-plain { padding: 2px 0; color: var(--text-2); }
+
+/* ── Mobile ── */
+@media (max-width: 960px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .header-inner, .filter-inner { padding-left: 20px; padding-right: 20px; }
+  .hero, .grid-wrap { padding-left: 20px; padding-right: 20px; }
+  .hero { padding-top: 40px; padding-bottom: 32px; }
+  .card-grid { grid-template-columns: 1fr; }
+  .modal { max-height: 92vh; }
+  .md-row { grid-template-columns: 120px 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="site-logo">
+      <div class="logo-dot"></div>
+      Korean Design MD
+    </div>
+    <div class="header-stats">
+      <div><span id="statTotal">0</span>개 서비스</div>
+      <div><span id="statExtracted">0</span>개 추출 완료</div>
+      <a href="prompt-manager.html" style="font-size:11px;color:var(--accent);font-family:var(--mono);font-weight:600;text-decoration:none;padding:4px 10px;border:1px solid var(--accent-line);border-radius:20px;background:var(--accent-dim);transition:all 0.15s;" onmouseover="this.style.background='rgba(0,82,255,0.14)'" onmouseout="this.style.background='var(--accent-dim)'">✨ Prompt Manager</a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-label">Personal Reference Archive</div>
+  <h1 class="hero-title">국내외 서비스의<br/><em>디자인 시스템</em> 레퍼런스</h1>
+  <p class="hero-desc">
+    <strong>토스 · 카카오 · 네이버</strong> 등 국내 주요 서비스의<br/>
+    DESIGN.md를추출해 정리한 아카이브
+  </p>
+</div>
+
+<!-- Filter -->
+<div class="filter-bar">
+  <div class="filter-inner" id="filterInner"></div>
+</div>
+
+<!-- Grid -->
+<div class="grid-wrap">
+  <div class="card-grid" id="cardGrid"></div>
+  <div class="grid-empty" id="gridEmpty">해당 카테고리에 등록된 서비스가 없습니다</div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-top-band" id="modalBand"></div>
+    <div class="modal-header">
+      <div class="modal-color-dot" id="modalDot"></div>
+      <div class="modal-name" id="modalName"></div>
+      <div class="modal-cat" id="modalCat"></div>
+      <div class="modal-actions">
+        <button class="btn-dl" id="btnDownload">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 1v6M2.5 5l3 3 3-3"/><path d="M1 10h9"/></svg>
+          DESIGN.md
+        </button>
+        <button class="btn-close" id="btnClose">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M1 1l11 11M12 1L1 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="md-content" id="modalContent"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+/* ── 데이터 ──────────────────────────────────────────
+   새로 추출한 서비스는 아래 배열에 추가하면 됩니다.
+   status: 'extracted' | 'pending'
+──────────────────────────────────────────────────── */
+const DATA = [
+  {
+    id: 'toss',
+    name: '토스',
+    nameEn: 'Toss',
+    category: '핀테크',
+    color: '#3182F6',
+    textOnColor: '#ffffff',
+    emoji: '💙',
+    logoUrl: 'https://logo.clearbit.com/toss.im',
+    siteUrl: 'https://toss.im',
+    swatches: ['#3182F6','#191F28','#F9FAFB','#00B493'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Toss — DESIGN.md
+
+## Color
+Primary:             #3182F6
+Primary Hover:       #1B64DA
+Background:          #F9FAFB
+Surface:             #FFFFFF
+Border:              #E5E8EB
+Text Primary:        #191F28
+Text Secondary:      #4E5968
+Text Tertiary:       #8B95A1
+Success:             #00B493
+Warning:             #F59E0B
+Error:               #F04452
+
+## Typography
+Font:                Toss Product Sans / Pretendard (fallback)
+Heading 1:           28px / 700 / -0.025em
+Heading 2:           22px / 700 / -0.020em
+Body 1:              17px / 400 / 1.6
+Body 2:              14px / 400 / 1.5
+Caption:             12px / 400 / 1.4
+
+## Spacing (4px base)
+Scale:               4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64px
+
+## Border Radius
+xs:                  6px
+sm:                  8px
+md:                  12px
+lg:                  16px
+xl:                  24px
+Full:                9999px
+
+## Shadows
+sm:                  0 1px 2px rgba(0,0,0,0.06)
+md:                  0 2px 8px rgba(0,0,0,0.08)
+lg:                  0 8px 24px rgba(0,0,0,0.10)
+
+## Motion
+Micro:               200ms cubic-bezier(0.16,1,0.3,1)
+Standard:            300ms cubic-bezier(0.16,1,0.3,1)
+Complex:             500ms cubic-bezier(0.16,1,0.3,1)
+
+## Components
+Button Primary:      #3182F6 bg · white text · h-52px · radius-12px · full-width
+Button Secondary:    #F2F4F6 bg · #191F28 text
+Input:               border #D1D6DB · active #3182F6 · radius-8px · h-52px
+Card:                white · radius-12px · shadow-md
+Bottom Sheet:        white · top-radius-20px · drag handle
+List Item:           h-60px · divider 1px #F2F4F6`
+  },
+  {
+    id: 'kakaotalk',
+    name: '카카오톡',
+    nameEn: 'KakaoTalk',
+    category: '메신저',
+    color: '#FEE500',
+    textOnColor: '#191919',
+    emoji: '💛',
+    logoUrl: 'https://logo.clearbit.com/kakao.com',
+    siteUrl: 'https://www.kakao.com/talk',
+    swatches: ['#FEE500','#191919','#B2C7DA','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# KakaoTalk — DESIGN.md
+
+## Color
+Primary:             #FEE500
+Primary Text:        #191919
+Background:          #FFFFFF
+Chat BG:             #B2C7DA
+Bubble (나):         #FEE500
+Bubble (상대방):     #FFFFFF
+Text Primary:        #191919
+Text Secondary:      #666666
+Border:              #E5E5E5
+Icon Active:         #191919
+Icon Inactive:       #AAAAAA
+
+## Typography
+Font:                KakaoFont · Apple SD Gothic Neo · Noto Sans KR
+Title:               18px / 700
+Body:                15px / 400 / 1.5
+Caption:             12px / 400
+
+## Border Radius
+말풍선:              18px (꼬리 방향 4px)
+Button:              8px
+Profile Image:       50% (원형)
+Card:                12px
+Sheet:               16px (상단)
+
+## Spacing
+채팅 padding:        12px 12px
+프로필 size:         46px (목록) · 60px (상세)
+탭바 height:         56px
+GNB height:          56px
+
+## Key Patterns
+GNB:                 white · 56px · 카카오 로고 좌측
+탭바:                5탭 — 친구 · 채팅 · 오픈채팅 · 쇼핑 · 더보기
+친구 목록:           46px 원형 + 이름(700) + 상태메시지(#666)
+채팅방 배경:         #B2C7DA 기본 / 사용자 변경 가능
+말풍선 간격:         동일인 연속 4px · 다른 사람 전환 12px`
+  },
+  {
+    id: 'naver',
+    name: '네이버',
+    nameEn: 'Naver',
+    category: '포털',
+    color: '#03C75A',
+    textOnColor: '#ffffff',
+    emoji: '💚',
+    logoUrl: 'https://logo.clearbit.com/naver.com',
+    siteUrl: 'https://www.naver.com',
+    swatches: ['#03C75A','#1A1A1A','#F5F6F8','#1A73E8'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Naver — DESIGN.md
+
+## Color
+Primary:             #03C75A
+Primary Dark:        #00A44B
+Background:          #FFFFFF
+Surface:             #F5F6F8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Link:                #1A73E8
+Border:              #E5E5E5
+Error:               #FF4040
+
+## Typography
+Font:                Noto Sans KR · Malgun Gothic (fallback)
+Heading:             22px / 700
+Body:                15px / 400 / 1.6
+Caption:             13px / 400
+Search Input:        18px / 400
+
+## Key Components
+검색창:              56px height · 그린 버튼 · 데스크톱 radius-0
+GNB:                 white · 64px · 그린 로고
+뉴스 카드:           썸네일 80×80 + 제목(bold) + 언론사(caption)
+실시간 검색어:       순위(accent) + 검색어 텍스트
+
+## Spacing
+GNB height:          64px
+검색창 max-width:    740px
+콘텐츠 padding:      16px (모바일) · 24px (데스크톱)
+
+## Motion
+자동완성 드롭다운:   150ms ease-out`
+  },
+  {
+    id: 'coupang',
+    name: '쿠팡',
+    nameEn: 'Coupang',
+    category: '이커머스',
+    color: '#1E4CE3',
+    textOnColor: '#ffffff',
+    emoji: '🛒',
+    logoUrl: 'https://logo.clearbit.com/coupang.com',
+    siteUrl: 'https://www.coupang.com',
+    swatches: ['#1E4CE3','#E04E39','#FFFFFF','#F7F8FA'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Coupang — DESIGN.md
+
+## Color
+Primary:             #1E4CE3
+Primary Dark:        #1438B0
+Rocket Red:          #E04E39
+Background:          #FFFFFF
+Surface:             #F7F8FA
+Border:              #E4E7ED
+Text Primary:        #111827
+Text Secondary:      #6B7280
+Text Tertiary:       #9CA3AF
+Success:             #10B981
+Warning:             #F59E0B
+Error:               #EF4444
+Badge Sale:          #E04E39
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading 1:           24px / 700 / -0.01em
+Heading 2:           20px / 700
+Body 1:              15px / 400 / 1.6
+Body 2:              13px / 400 / 1.5
+Caption:             11px / 400
+Price:               20px / 700 / var(--mono)
+
+## Spacing (4px base)
+Scale:               4 · 8 · 12 · 16 · 20 · 24 · 32 · 48px
+
+## Border Radius
+Button:              4px
+Card:                8px
+Badge:               4px
+Input:               4px
+Image:               4px
+
+## Key Components
+GNB:                 white · 56px · 로켓 로고 + 검색창
+검색창:              full-width · 40px · radius-4px · #1E4CE3 버튼
+상품 카드:           썸네일 + 할인율(red) + 가격(700) + 로켓배송 뱃지
+로켓배송 뱃지:       #1E4CE3 bg · white text · 9px mono
+탭바:                하단 5탭 — 홈 · 카테고리 · 쿠팡플레이 · 찜 · 마이쿠팡
+
+## Motion
+페이지 전환:         fade 150ms ease-out
+스켈레톤 로딩:       shimmer 1.5s infinite`
+  },
+  {
+    id: 'baemin',
+    name: '배달의민족',
+    nameEn: 'Baemin',
+    category: '배달',
+    color: '#2AC1BC',
+    textOnColor: '#ffffff',
+    emoji: '🍜',
+    logoUrl: 'https://logo.clearbit.com/baemin.com',
+    siteUrl: 'https://www.baemin.com',
+    swatches: ['#2AC1BC','#FFBE00','#191919','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# 배달의민족 — DESIGN.md
+
+## Color
+Primary Teal:        #2AC1BC
+Primary Dark:        #1E9E9A
+Yellow:              #FFBE00
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #191919
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Error:               #FF4040
+Discount:            #FF4040
+
+## Typography
+Font:                BMHanna (배민한나체) · Noto Sans KR · system-ui
+앱 헤더:             20px / 700 (BMHanna)
+본문:                15px / 400 / 1.5
+가게명:              16px / 700
+금액:                18px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button:              999px (pill)
+Card:                12px
+Image:               8px
+Badge:               999px
+Sheet:               20px (상단)
+
+## Spacing
+GNB height:          56px
+카드 padding:        16px
+탭바 height:         60px
+가게 카드 gap:       12px
+
+## Key Components
+GNB:                 white · 배민 로고(teal) + 주소 + 검색
+홈 카테고리:         아이콘 + 텍스트 격자형 (4×2)
+가게 카드:           썸네일(16:9) + 가게명 + 별점 + 배달시간 + 최소금액
+주문 버튼:           pill · #2AC1BC · white · full-width · 56px
+
+## Motion
+카드 진입:           translateY(8px) → 0 · 200ms ease-out
+시트 열림:           300ms cubic-bezier(0.16,1,0.3,1)`
+  },
+  {
+    id: 'kakaopay',
+    name: '카카오페이',
+    nameEn: 'KakaoPay',
+    category: '핀테크',
+    color: '#FFCD00',
+    textOnColor: '#191919',
+    emoji: '💳',
+    logoUrl: 'https://logo.clearbit.com/kakaopay.com',
+    siteUrl: 'https://kakaopay.com',
+    swatches: ['#FFCD00','#191919','#3C1E6E','#F7F7F7'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# KakaoPay — DESIGN.md
+
+## Color
+Primary Yellow:      #FFCD00
+Primary Dark:        #3C1E6E
+Background:          #FFFFFF
+Surface:             #F7F7F7
+Border:              #E5E5E5
+Text Primary:        #191919
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00C471
+Error:               #FF4040
+Point:               #FF6B00
+
+## Typography
+Font:                Kakao (카카오체) · Apple SD Gothic Neo · Noto Sans KR
+Heading:             22px / 700 / -0.02em
+Sub Heading:         17px / 600
+Body:                15px / 400 / 1.6
+Amount:              28px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button Primary:      999px (pill)
+Card:                16px
+Input:               12px
+Sheet:               20px (상단)
+Badge:               999px
+
+## Spacing
+카드 padding:        20px
+버튼 height:         52px
+리스트 아이템:       60px height · 16px padding
+
+## Key Components
+메인 잔액:           28px bold · 중앙 정렬 · 배경 #3C1E6E 그라데이션
+결제 버튼:           pill · #FFCD00 · #191919 text · full-width
+카드 등록:           카드 비율 (85.6×54mm) · 16px radius · 브랜드 컬러
+거래 내역:           아이콘(40px circle) + 가맹점명 + 날짜 + 금액
+
+## Motion
+잔액 카운트업:       1.2s ease-out
+결제 완료:           체크 애니메이션 600ms
+페이지 전환:         slide 280ms cubic-bezier(0.16,1,0.3,1)`
+  },
+  {
+    id: 'musinsa',
+    name: '무신사',
+    nameEn: 'Musinsa',
+    category: '이커머스',
+    color: '#000000',
+    textOnColor: '#ffffff',
+    emoji: '👗',
+    logoUrl: 'https://logo.clearbit.com/musinsa.com',
+    siteUrl: 'https://www.musinsa.com',
+    swatches: ['#000000','#FFFFFF','#F5F5F5','#FF0000'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Musinsa — DESIGN.md
+
+## Color
+Primary:             #000000
+Background:          #FFFFFF
+Surface:             #F5F5F5
+Surface Dark:        #1A1A1A
+Border:              #E5E5E5
+Border Dark:         #333333
+Text Primary:        #000000
+Text Secondary:      #555555
+Text Tertiary:       #999999
+Accent Red:          #FF0000
+Sale:                #FF0000
+Link:                #000000
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Editorial Title:     clamp(28px, 5vw, 64px) / 700 / -0.04em
+Heading:             20px / 700 / -0.02em
+Body:                14px / 400 / 1.6
+Price:               16px / 700 / tabular-nums
+Brand Name:          12px / 600 / 0.04em uppercase
+Caption:             11px / 400
+
+## Border Radius
+Button:              0px (sharp)
+Card:                0px (sharp)
+Input:               2px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+그리드 gap:          1px (사이 선으로 구분)
+상품 카드 padding:   8px 0
+콘텐츠 padding:      16px
+
+## Key Components
+GNB:                 white · MUSINSA 로고(black) · 검색 아이콘
+상품 그리드:         2열 · 1px border-gap · 브랜드명 + 상품명 + 정가/할인가
+필터 탭:             underline style · black active
+에디토리얼 배너:     full-bleed 이미지 · 오버레이 텍스트 · 대형 타이포
+
+## Motion
+이미지 호버:         scale(1.03) · 400ms ease
+필터 전환:           underline slide · 200ms ease`
+  },
+  {
+    id: 'yanolja',
+    name: '야놀자',
+    nameEn: 'Yanolja',
+    category: '여행',
+    color: '#FF5059',
+    textOnColor: '#ffffff',
+    emoji: '🏨',
+    logoUrl: 'https://logo.clearbit.com/yanolja.com',
+    siteUrl: 'https://www.yanolja.com',
+    swatches: ['#FF5059','#FFD600','#FFFFFF','#1A1A1A'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# 야놀자 — DESIGN.md
+
+## Color
+Primary:             #FF5059
+Primary Dark:        #E0353E
+Yellow:              #FFD600
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #EBEBEB
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Success:             #00C471
+Error:               #FF3B30
+Star:                #FFD600
+
+## Typography
+Font:                Noto Sans KR · Apple SD Gothic Neo
+Heading 1:           22px / 700 / -0.02em
+Heading 2:           18px / 700
+Body:                14px / 400 / 1.6
+Price:               20px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Image:               8px
+Sheet:               20px (상단)
+Input:               8px
+Badge:               4px
+
+## Spacing
+GNB height:          56px
+검색창 height:       48px
+카드 padding:        14px
+탭바 height:         60px
+
+## Key Components
+GNB:                 white · 야놀자 로고(red) + 위치 선택 + 검색
+검색 영역:           날짜/인원 선택 패널 · #FF5059 검색 버튼
+숙소 카드:           썸네일(3:2) · radius-12px · 이름 + 별점 + 가격
+가격 표시:           정가(취소선) + 할인율(red) + 최종가(700 bold)
+카테고리:            아이콘 + 텍스트 · 가로 스크롤
+
+## Motion
+카드 로드:           fade-up 200ms stagger 50ms
+날짜 피커:           slide 250ms ease-out`
+  },
+  {
+    id: 'kakaobank',
+    name: '카카오뱅크',
+    nameEn: 'KakaoBank',
+    category: '뱅킹',
+    color: '#381E1E',
+    textOnColor: '#ffffff',
+    emoji: '🏦',
+    logoUrl: 'https://logo.clearbit.com/kakaobank.com',
+    siteUrl: 'https://www.kakaobank.com',
+    swatches: ['#FEE500','#381E1E','#FFFFFF','#F4F4F4'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# KakaoBank — DESIGN.md
+
+## Color
+Primary Yellow:      #FEE500
+Primary Dark:        #381E1E
+Background:          #FFFFFF
+Surface:             #F4F4F4
+Surface Warm:        #FAFAF8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+Interest:            #3162E0
+
+## Typography
+Font:                KakaoFont · Apple SD Gothic Neo · Noto Sans KR
+Heading:             22px / 700 / -0.02em
+Balance:             32px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Label:               13px / 500
+Caption:             12px / 400
+
+## Border Radius
+Button:              999px (pill)
+Card:                16px
+Account Card:        20px
+Input:               12px
+Sheet:               24px (상단)
+
+## Spacing
+카드 padding:        22px
+버튼 height:         54px
+리스트 아이템:       64px
+탭바 height:         60px
+
+## Key Components
+계좌 카드:           20px radius · #381E1E 배경 · FEE500 포인트 · 잔액 32px
+이체 버튼:           pill · #FEE500 · #1A1A1A text · 54px height
+거래 내역:           카테고리 아이콘(44px circle) + 내용 + 금액(+/- 색상)
+금리 표시:           Interest blue · 숫자 굵게 · % 단위 표기
+홈 탭:              계좌 카드 슬라이드 · 페이지 인디케이터
+
+## Motion
+잔액 업데이트:       roll-up 400ms ease-out
+카드 스와이프:       spring physics · damping 0.8`
+  },
+  {
+    id: 'yogiyo',
+    name: '요기요',
+    nameEn: 'Yogiyo',
+    category: '배달',
+    color: '#FA2828',
+    textOnColor: '#ffffff',
+    emoji: '🍕',
+    logoUrl: 'https://logo.clearbit.com/yogiyo.co.kr',
+    siteUrl: 'https://www.yogiyo.co.kr',
+    swatches: ['#FA2828','#FF7B7B','#FFFFFF','#F5F5F5'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# 요기요 — DESIGN.md
+
+## Color
+Primary:             #FA2828
+Primary Light:       #FF7B7B
+Primary Dim:         rgba(250,40,40,0.08)
+Background:          #FFFFFF
+Surface:             #F5F5F5
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Success:             #00C471
+Warning:             #FF9500
+Error:               #FA2828
+Star:                #FFB800
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Body:                14px / 400 / 1.6
+가게명:              16px / 700
+금액:                16px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Image:               8px
+Input:               8px
+Sheet:               16px (상단)
+Badge:               999px
+
+## Spacing
+GNB height:          56px
+카드 padding:        12px
+카드 gap:            12px
+탭바 height:         56px
+
+## Key Components
+GNB:                 white · 요기요 로고(red) · 주소 + 검색
+홈 배너:             full-width 슬라이드 · 자동재생 3초
+가게 카드:           가로형 · 썸네일(80×80) + 가게명 + 별점 + 배달비 + 시간
+카테고리 필터:       pill 형태 · 가로 스크롤 · active: #FA2828
+
+## Motion
+배너 전환:           fade 500ms
+카드 탭:             scale(0.97) → 1 · 100ms`
+  },
+  {
+    id: '29cm',
+    name: '29CM',
+    nameEn: '29CM',
+    category: '이커머스',
+    color: '#1A1A1A',
+    textOnColor: '#ffffff',
+    emoji: '🛍️',
+    logoUrl: 'https://logo.clearbit.com/29cm.co.kr',
+    siteUrl: 'https://www.29cm.co.kr',
+    swatches: ['#1A1A1A','#FFFFFF','#F0EDE8','#888888'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# 29CM — DESIGN.md
+
+## Color
+Primary:             #1A1A1A
+Background:          #FFFFFF
+Surface Warm:        #F0EDE8
+Surface Gray:        #F5F5F5
+Border:              #E0E0E0
+Border Light:        #EFEFEF
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Tertiary:       #999999
+Accent:              #1A1A1A
+Sale:                #C0392B
+
+## Typography
+Font:                Noto Serif KR (에디토리얼) · Noto Sans KR · system-ui
+Editorial Title:     clamp(24px, 4vw, 56px) / 400 / -0.03em (Serif)
+Heading:             18px / 600 / -0.02em
+Brand:               11px / 700 / 0.1em uppercase
+Body:                14px / 400 / 1.8
+Price:               16px / 600 / tabular-nums
+Caption:             12px / 400 / 1.5
+
+## Border Radius
+Button:              0px (sharp)
+Card:                0px (sharp)
+Image:               0px (sharp)
+Input:               0px (sharp)
+
+## Spacing
+GNB height:          60px
+그리드 gap:          24px (데스크톱) · 12px (모바일)
+상품 카드 gap:       8px (이미지-텍스트)
+콘텐츠 max-width:   1200px
+
+## Key Components
+GNB:                 white · 29CM 로고 중앙 · 검색/찜/장바구니 우측
+에디토리얼 배너:     full-bleed · Serif 타이포 오버레이 · 세로 텍스트 가능
+상품 카드:           이미지(4:5 ratio) · 브랜드명(uppercase) · 상품명 · 가격
+필터:                underline 스타일 · 정렬 dropdown
+
+## Motion
+이미지 호버:         scale(1.04) 500ms ease
+페이지 전환:         fade 200ms`
+  },
+  {
+    id: 'watcha',
+    name: '왓챠',
+    nameEn: 'Watcha',
+    category: 'OTT',
+    color: '#FF0558',
+    textOnColor: '#ffffff',
+    emoji: '🎬',
+    logoUrl: 'https://logo.clearbit.com/watcha.com',
+    siteUrl: 'https://watcha.com',
+    swatches: ['#FF0558','#0D0D0D','#1C1C1C','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Watcha — DESIGN.md
+
+## Color
+Primary:             #FF0558
+Primary Dark:        #CC0046
+Background:          #0D0D0D
+Surface:             #1C1C1C
+Surface High:        #2A2A2A
+Border:              #333333
+Text Primary:        #FFFFFF
+Text Secondary:      #AAAAAA
+Text Tertiary:       #666666
+Star:                #F5C518
+Progress:            #FF0558
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em / white
+Title Card:          15px / 700 / white
+Body:                14px / 400 / 1.6 / #AAAAAA
+Rating:              14px / 700 / white
+Caption:             12px / 400 / #666666
+
+## Border Radius
+Thumbnail:           6px
+Button:              4px
+Badge:               4px
+Progress Bar:        2px
+Sheet:               16px (상단)
+
+## Spacing
+GNB height:          60px
+콘텐츠 padding:      16px (모바일) · 48px (데스크톱)
+카드 gap:            8px (모바일) · 12px (데스크톱)
+탭바 height:         56px
+
+## Key Components
+GNB:                 #0D0D0D · WATCHA 로고(white) · 검색 아이콘
+히어로 배너:         full-bleed 포스터 · 하단 그라데이션 · 제목 + 장르 + 버튼
+콘텐츠 카드:         세로 포스터(2:3) · hover 시 제목 오버레이
+별점:                5점 만점 · 0.5 단위 · #F5C518
+재생 버튼:           #FF0558 · white play icon · pill
+
+## Motion
+히어로 배너:         crossfade 800ms
+카드 호버:           scale(1.06) + 그림자 300ms ease
+재생 진행률:         실시간 width transition`
+  },
+
+  /* ── 핀테크 ── */
+  {
+    id: 'naverpay',
+    name: '네이버페이',
+    nameEn: 'NaverPay',
+    category: '핀테크',
+    color: '#03C75A',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/naver.com',
+    siteUrl: 'https://pay.naver.com',
+    swatches: ['#03C75A','#191919','#F5F6F8','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# NaverPay — DESIGN.md
+
+## Color
+Primary:             #03C75A
+Primary Dark:        #00A44B
+Background:          #FFFFFF
+Surface:             #F5F6F8
+Border:              #E5E8EB
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Error:               #FF4040
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.02em
+Balance:             28px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              999px (pill)
+Card:                12px
+Input:               8px
+Sheet:               16px (상단)
+Badge:               999px
+
+## Spacing
+GNB height:          56px
+버튼 height:         52px
+카드 padding:        16px
+리스트 아이템:       52px height
+
+## Key Components
+포인트 잔액:         28px bold · 그린 강조 · 중앙 정렬
+결제 버튼:           pill · #03C75A · white · full-width
+포인트 내역:         아이콘(36px) + 내용 + 날짜 + 포인트
+간편결제 QR:         중앙 QR코드 · #03C75A 테두리
+
+## Motion
+잔액 카운트업:       1.0s ease-out
+결제 완료 확인:      체크 애니메이션 500ms`
+  },
+  {
+    id: 'payco',
+    name: '페이코',
+    nameEn: 'Payco',
+    category: '핀테크',
+    color: '#FF5C00',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/payco.com',
+    siteUrl: 'https://www.payco.com',
+    swatches: ['#FF5C00','#FFFFFF','#F5F5F5','#191919'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Payco — DESIGN.md
+
+## Color
+Primary:             #FF5C00
+Primary Dark:        #E54E00
+Background:          #FFFFFF
+Surface:             #F7F7F7
+Border:              #E5E5E5
+Text Primary:        #191919
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B300
+Error:               #FF4040
+
+## Typography
+Font:                NanumSquare · Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.02em
+Balance:             26px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Input:               8px
+Sheet:               16px (상단)
+Badge:               999px
+
+## Spacing
+GNB height:          56px
+버튼 height:         50px
+카드 padding:        16px
+리스트 아이템:       56px height
+
+## Key Components
+포인트 잔액:         26px bold · 오렌지 강조
+결제 버튼:           #FF5C00 · white · 8px radius
+포인트 내역:         아이콘 + 가맹점명 + 날짜 + 포인트/금액
+카드 등록:           카드 비율 · 브랜드 로고 + 번호 마스킹
+
+## Motion
+페이지 전환:         slide 250ms ease-out
+결제 승인:           progress circle 1.5s`
+  },
+  {
+    id: 'banksalad',
+    name: '뱅크샐러드',
+    nameEn: 'Banksalad',
+    category: '핀테크',
+    color: '#5DDE8F',
+    textOnColor: '#191919',
+    logoUrl: 'https://logo.clearbit.com/banksalad.com',
+    siteUrl: 'https://banksalad.com',
+    swatches: ['#5DDE8F','#191F28','#F7F8FA','#F04452'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Banksalad — DESIGN.md
+
+## Color
+Primary:             #5DDE8F
+Primary Dark:        #3DC870
+Background:          #FFFFFF
+Surface:             #F7F8FA
+Border:              #E5E8EB
+Text Primary:        #191F28
+Text Secondary:      #4E5968
+Text Tertiary:       #8B95A1
+Success:             #5DDE8F
+Error:               #F04452
+
+## Typography
+Font:                Pretendard · system-ui
+Heading:             22px / 700 / -0.025em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Label:               13px / 500
+Caption:             12px / 400
+
+## Border Radius
+Button:              10px
+Card:                16px
+Input:               8px
+Sheet:               20px (상단)
+Badge:               999px
+
+## Spacing
+카드 padding:        20px
+버튼 height:         54px
+리스트 height:       64px
+탭바 height:         56px
+
+## Key Components
+자산 현황:           전체 자산 합산 30px · 그린 강조
+지출 분석:           도넛 차트 · 카테고리별 색상
+카드 추천:           맞춤 카드 비교 + 혜택 계산
+대출 비교:           금리 비교 + 한도 계산
+
+## Motion
+자산 차트:           pie 애니메이션 800ms
+지출 카운트:         roll-up 600ms`
+  },
+  {
+    id: 'samsungpay',
+    name: '삼성페이',
+    nameEn: 'Samsung Pay',
+    category: '핀테크',
+    color: '#1428A0',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/samsung.com',
+    siteUrl: 'https://www.samsung.com/sec/apps/samsung-pay/',
+    swatches: ['#1428A0','#FFFFFF','#F5F6F8','#00B386'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Samsung Pay — DESIGN.md
+
+## Color
+Primary:             #1428A0
+Primary Dark:        #0D1E78
+Background:          #FFFFFF
+Surface:             #F5F6F8
+Border:              #E5E8EB
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+
+## Typography
+Font:                Samsung One · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             28px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                16px
+Input:               8px
+Sheet:               16px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         52px
+리스트 height:       60px
+탭바 height:         60px
+
+## Key Components
+카드 등록:           실물 카드 스캔 + MST/NFC 선택
+결제 카드:           카드 슬라이드 · 브랜드 컬러
+멤버십:              포인트/스탬프 통합 관리
+교통카드:            NFC 탭 · 버스/지하철 연동
+
+## Motion
+카드 선택:           card-flip 400ms ease
+결제 승인:           vibrate + sound feedback`
+  },
+  {
+    id: 'kiwoom',
+    name: '키움증권',
+    nameEn: 'Kiwoom Securities',
+    category: '핀테크',
+    color: '#E8272F',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/kiwoom.com',
+    siteUrl: 'https://www.kiwoom.com',
+    swatches: ['#E8272F','#1A6EF1','#1A1A1A','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Kiwoom Securities — DESIGN.md
+
+## Color
+Primary:             #E8272F
+Primary Dark:        #C21A22
+Background:          #FFFFFF
+Surface:             #F7F7F7
+Border:              #E0E0E0
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Up:                  #E8272F
+Down:                #1A6EF1
+Flat:                #888888
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             18px / 700
+Price:               20px / 700 / tabular-nums
+Body:                14px / 400 / 1.5
+Caption:             11px / 400
+Ticker:              16px / 700 / mono
+
+## Border Radius
+Button:              4px
+Card:                4px
+Input:               4px
+Badge:               2px
+Chart:               0px
+
+## Spacing
+GNB height:          56px
+호가창 row:          36px
+체결 내역 row:       32px
+탭바 height:         56px
+
+## Key Components
+주식 호가창:         매수(red) · 매도(blue) · 현재가 강조
+차트:                캔들 · 라인 · 볼린저밴드 선택
+주문창:              시장가/지정가 · 수량 · 가격 입력
+잔고:                계좌 잔고 + 평가손익(+/- 색상)
+
+## Motion
+실시간 시세:         숫자 roll 50ms
+차트 줌:             pinch 제스처 smooth`
+  },
+  {
+    id: 'tosssec',
+    name: '토스증권',
+    nameEn: 'Toss Securities',
+    category: '핀테크',
+    color: '#3182F6',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/tosssec.com',
+    siteUrl: 'https://tosssec.com',
+    swatches: ['#3182F6','#F04452','#191F28','#F9FAFB'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Toss Securities — DESIGN.md
+
+## Color
+Primary:             #3182F6
+Primary Hover:       #1B64DA
+Background:          #F9FAFB
+Surface:             #FFFFFF
+Border:              #E5E8EB
+Text Primary:        #191F28
+Text Secondary:      #4E5968
+Text Tertiary:       #8B95A1
+Up:                  #F04452
+Down:                #2979FF
+Flat:                #8B95A1
+
+## Typography
+Font:                Toss Product Sans · Pretendard
+Heading:             22px / 700 / -0.025em
+Price:               24px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              12px
+Card:                16px
+Input:               8px
+Chart:               0px
+
+## Spacing
+카드 padding:        20px
+버튼 height:         52px
+호가 row:            40px
+탭바 height:         56px
+
+## Key Components
+주식 검색:           종목명 + 현재가 + 등락률
+종목 차트:           선형 · 캔들 · 기간 선택
+간편 매매:           시장가 1-click · 수량 +/-
+해외주식:            미국 주식 · 환전 없이 원화 매매
+
+## Motion
+가격 변동:           flash red/blue 200ms
+차트 드로우:         path animation 600ms`
+  },
+  {
+    id: 'finda',
+    name: '핀다',
+    nameEn: 'Finda',
+    category: '핀테크',
+    color: '#7152F3',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/finda.co.kr',
+    siteUrl: 'https://www.finda.co.kr',
+    swatches: ['#7152F3','#191919','#F7F8FF','#00B386'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Finda — DESIGN.md
+
+## Color
+Primary:             #7152F3
+Primary Dark:        #5B3DD4
+Background:          #FFFFFF
+Surface:             #F7F8FF
+Border:              #E8EAFF
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+
+## Typography
+Font:                Pretendard · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.025em
+Rate:                28px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              12px
+Card:                16px
+Input:               10px
+Sheet:               20px (상단)
+Badge:               999px
+
+## Spacing
+카드 padding:        20px
+버튼 height:         54px
+리스트 height:       72px
+탭바 height:         56px
+
+## Key Components
+대출 비교:           금리 · 한도 · 은행별 카드 나열
+나의 대출:           현재 보유 대출 잔액 + 이자 현황
+대출 신청:           심사 단계 프로그레스 바
+신용점수:            신용점수 게이지 + 올리기 팁
+
+## Motion
+비교 카드:           stagger 100ms slide-up
+신청 프로세스:       step progress 400ms`
+  },
+
+  /* ── 메신저 ── */
+  {
+    id: 'line',
+    name: '라인',
+    nameEn: 'Line',
+    category: '메신저',
+    color: '#06C755',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/line.me',
+    siteUrl: 'https://line.me/ko',
+    swatches: ['#06C755','#191919','#EFFDDE','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Line — DESIGN.md
+
+## Color
+Primary:             #06C755
+Primary Dark:        #00A846
+Background:          #FFFFFF
+Chat BG:             #EFEFF4
+Bubble (나):         #06C755
+Bubble (상대방):     #FFFFFF
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Border:              #C7C7CC
+Tab Active:          #06C755
+Tab Inactive:        #8E8E93
+
+## Typography
+Font:                Noto Sans KR · Hiragino Sans · system-ui
+Title:               17px / 600
+Body:                15px / 400 / 1.5
+Caption:             12px / 400 / #707579
+Time:                12px / 400 / #AAAAAA
+
+## Border Radius
+말풍선:              20px (꼬리 방향 4px)
+Profile:             50% (원형)
+Button:              999px
+Card:                12px
+
+## Spacing
+GNB height:          56px
+탭바 height:         49px (iOS)
+채팅 cell height:    56px
+채팅 padding:        8px 12px
+
+## Key Components
+탭바:                4탭 — 채팅 · 타임라인 · 통화 · 더보기
+친구 목록:           44px 원형 + 이름 + 상태메시지
+말풍선:              radius-20px · green(나) · white(상대방)
+OpenChat:            공개 채팅방 · 썸네일 + 인원 수
+
+## Motion
+메시지 전송:         bubble 슬라이드인 100ms
+스티커 애니메이션:   자체 APNG/GIF`
+  },
+  {
+    id: 'naverband',
+    name: '네이버 밴드',
+    nameEn: 'Naver Band',
+    category: '메신저',
+    color: '#00C73C',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/band.us',
+    siteUrl: 'https://band.us',
+    swatches: ['#00C73C','#191919','#F5F5F5','#FF5C5C'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Naver Band — DESIGN.md
+
+## Color
+Primary:             #00C73C
+Primary Dark:        #00A032
+Background:          #F0F0F0
+Surface:             #FFFFFF
+Border:              #DFDFDF
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Like:                #FF5C5C
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             18px / 700
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+Badge:               10px / 600
+
+## Border Radius
+Card:                8px
+Button:              4px
+Profile:             50%
+Photo:               4px
+Badge:               999px
+
+## Spacing
+GNB height:          56px
+카드 margin:         8px
+카드 padding:        16px
+탭바 height:         56px
+
+## Key Components
+밴드 목록:           썸네일(48px) + 밴드명 + 새 게시글 수
+게시글 카드:         작성자(40px 원형) + 내용 + 이미지
+좋아요 버튼:         하트 아이콘 + 카운트 · red active
+댓글창:              하단 고정 · 입력창 + 전송
+
+## Motion
+이미지 로드:         fade-in 200ms
+좋아요 탭:           하트 파티클 300ms`
+  },
+  {
+    id: 'telegram',
+    name: '텔레그램',
+    nameEn: 'Telegram',
+    category: '메신저',
+    color: '#2AABEE',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/telegram.org',
+    siteUrl: 'https://telegram.org',
+    swatches: ['#2AABEE','#EFFDDE','#FFFFFF','#1A1A1A'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Telegram — DESIGN.md
+
+## Color
+Primary:             #2AABEE
+Primary Dark:        #1E94CF
+Background:          #FFFFFF
+Chat BG:             #EFEFF4
+Bubble (나):         #EFFDDE
+Bubble (상대방):     #FFFFFF
+Text Primary:        #1A1A1A
+Text Secondary:      #707579
+Link:                #2AABEE
+Border:              #D8D8D8
+
+## Typography
+Font:                SF Pro · Roboto · system-ui
+Heading:             17px / 600
+Body:                16px / 400 / 1.5
+Caption:             13px / 400 / #707579
+Time:                12px / 400 / #AAAAAA
+
+## Border Radius
+말풍선:              18px (꼬리 방향 4px)
+Profile:             50%
+Button:              999px
+Card:                12px
+
+## Spacing
+GNB height:          56px
+탭바 height:         49px (iOS)
+채팅 cell:           72px
+채팅 padding:        8px 12px
+
+## Key Components
+채널:                공개 채널 · 구독자 수 표시
+봇:                  Bot API 연동 · 버튼형 메뉴
+비밀 채팅:           E2E 암호화 · 타이머 삭제
+그룹:                최대 200,000명 · 관리자 역할
+
+## Motion
+메시지 전송:         bubble 슬라이드인 100ms
+스티커:              Lottie 애니메이션`
+  },
+  {
+    id: 'discord',
+    name: '디스코드',
+    nameEn: 'Discord',
+    category: '메신저',
+    color: '#5865F2',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/discord.com',
+    siteUrl: 'https://discord.com',
+    swatches: ['#5865F2','#313338','#2B2D31','#3BA55C'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Discord — DESIGN.md
+
+## Color
+Primary:             #5865F2
+Primary Hover:       #4752C4
+Background:          #313338
+Surface:             #2B2D31
+Surface Low:         #1E1F22
+Border:              #3F4147
+Text Primary:        #FFFFFF
+Text Secondary:      #B5BAC1
+Online:              #3BA55C
+Idle:                #FAA61A
+DND:                 #ED4245
+
+## Typography
+Font:                gg sans · Noto Sans · system-ui
+Heading:             16px / 600 / white
+Body:                16px / 400 / #B5BAC1
+Caption:             12px / 500 / 0.02em uppercase / #8E9297
+Message:             16px / 400 / white
+
+## Border Radius
+Button:              4px
+Avatar:              50%
+Input:               8px
+Card:                8px
+Badge:               999px
+
+## Spacing
+서버 sidebar:        72px width
+채널 sidebar:        240px width
+채널 padding:        8px 16px
+메시지 padding:      2px 16px
+
+## Key Components
+서버 목록:           좌측 아이콘 + 알림 뱃지
+채널 목록:           카테고리 + 채널명 · # 접두사
+메시지 영역:         사용자 아바타(32px) + 메시지 + timestamp
+반응 이모지:         클릭으로 추가 · 카운트 표시
+
+## Motion
+서버 아이콘 hover:   squircle → pill 300ms
+알림 뱃지:           bounce 350ms spring`
+  },
+  {
+    id: 'nateon',
+    name: '네이트온',
+    nameEn: 'NateOn',
+    category: '메신저',
+    color: '#FF5A00',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/nate.com',
+    siteUrl: 'https://nateon.nate.com',
+    swatches: ['#FF5A00','#FFFFFF','#E8E8E8','#1A1A1A'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# NateOn — DESIGN.md
+
+## Color
+Primary:             #FF5A00
+Primary Dark:        #E04800
+Background:          #FFFFFF
+Surface:             #F5F5F5
+Chat BG:             #E8E8E8
+Bubble (나):         #FF5A00
+Bubble (상대방):     #FFFFFF
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Border:              #D5D5D5
+
+## Typography
+Font:                맑은 고딕 · 나눔고딕 · system-ui
+Heading:             16px / 600
+Body:                14px / 400 / 1.5
+Caption:             12px / 400
+Username:            13px / 600
+
+## Border Radius
+말풍선:              12px
+Profile:             50%
+Button:              4px
+
+## Spacing
+채팅창 width:        280px (기본)
+Cell height:         52px
+Bubble padding:      8px 12px
+
+## Key Components
+친구 목록:           상태메시지 · 프로필 사진
+그룹채팅:            최대 100명
+파일 전송:           드래그&드롭 · 대용량 지원
+화상통화:            1:1 / 그룹 통화 지원
+
+## Motion
+메시지 수신:         fade + sound 알림
+파일 전송 진행:      progress bar animation`
+  },
+  {
+    id: 'kakaowork',
+    name: '카카오워크',
+    nameEn: 'Kakao Work',
+    category: '메신저',
+    color: '#3A7EFF',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/kakaoenterprise.com',
+    siteUrl: 'https://kakaowork.com',
+    swatches: ['#FEE500','#3A7EFF','#F7F7F7','#191919'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Kakao Work — DESIGN.md
+
+## Color
+Primary:             #FEE500
+Work Blue:           #3A7EFF
+Background:          #FFFFFF
+Surface:             #F7F7F7
+Chat BG:             #EFF0F3
+Bubble (나):         #FEE500
+Bubble (상대방):     #FFFFFF
+Text Primary:        #191919
+Text Secondary:      #555555
+Border:              #E5E5E5
+
+## Typography
+Font:                KakaoFont · Apple SD Gothic Neo · Noto Sans KR
+Heading:             16px / 600
+Body:                15px / 400 / 1.5
+Caption:             12px / 400
+
+## Border Radius
+말풍선:              16px
+Profile:             50%
+Button:              8px
+Card:                12px
+
+## Spacing
+채널 sidebar:        240px
+헤더 height:         56px
+Bubble padding:      10px 14px
+
+## Key Components
+워크스페이스:        조직별 분리 · 역할 관리
+채널:                공개/비공개 · 토픽별
+봇:                  업무 자동화 · 승인 워크플로우
+통화:                화상회의 · 화면 공유
+
+## Motion
+알림:                badge 카운트업 200ms
+봇 메시지:           카드형 슬라이드인 250ms`
+  },
+  {
+    id: 'jandi',
+    name: '잔디',
+    nameEn: 'JANDI',
+    category: '메신저',
+    color: '#2AAA8A',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/jandi.com',
+    siteUrl: 'https://www.jandi.com',
+    swatches: ['#2AAA8A','#FFFFFF','#F4F5F6','#1A1A1A'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# JANDI — DESIGN.md
+
+## Color
+Primary:             #2AAA8A
+Primary Dark:        #1D8A70
+Background:          #FFFFFF
+Surface:             #F4F5F6
+Chat BG:             #F0F1F2
+Bubble (나):         #2AAA8A
+Bubble (상대방):     #FFFFFF
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Border:              #E0E2E5
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             16px / 600
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+말풍선:              16px
+Profile:             50%
+Button:              6px
+Card:                10px
+
+## Spacing
+채널 sidebar:        220px
+헤더 height:         56px
+Bubble padding:      8px 12px
+
+## Key Components
+토픽:                채널 중심 커뮤니케이션
+파일 공유:           Google Drive / Dropbox 연동
+화상회의:            1:1 / 그룹 · 화면 공유
+할 일:               메시지 → To-Do 전환
+
+## Motion
+메시지 수신:         토스트 알림 300ms
+파일 업로드:         진행률 바 animation`
+  },
+  {
+    id: 'slack',
+    name: '슬랙',
+    nameEn: 'Slack',
+    category: '메신저',
+    color: '#4A154B',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/slack.com',
+    siteUrl: 'https://slack.com/intl/ko-kr',
+    swatches: ['#4A154B','#3F0E40','#44B273','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Slack — DESIGN.md
+
+## Color
+Primary:             #4A154B
+Sidebar BG:          #3F0E40
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1D1C1D
+Text Secondary:      #616061
+Text Sidebar:        #FFFFFF
+Online:              #44B273
+Mention:             #FFF7E8
+
+## Typography
+Font:                Lato · SF Pro · system-ui
+Heading:             18px / 700
+Body:                15px / 400 / 1.6
+Caption:             13px / 400
+Channel:             15px / 500
+
+## Border Radius
+Button:              4px
+Avatar:              4px
+Input:               4px
+Card:                4px
+Modal:               8px
+
+## Spacing
+좌측 사이드바:       220px
+헤더 height:         56px
+메시지 padding:      8px 20px
+채널 리스트 row:     28px
+
+## Key Components
+워크스페이스:        조직 단위 · 다중 워크스페이스
+채널 #:              공개/비공개 · 주제별 분류
+스레드:              메시지 답글 · 알림 분리
+앱 연동:             GitHub, Jira, Google 등 2000+
+
+## Motion
+채널 전환:           instant (no animation)
+새 메시지 뱃지:      fade-in 150ms`
+  },
+
+  /* ── 이커머스 ── */
+  {
+    id: 'navershop',
+    name: '네이버쇼핑',
+    nameEn: 'Naver Shopping',
+    category: '이커머스',
+    color: '#03C75A',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/naver.com',
+    siteUrl: 'https://shopping.naver.com',
+    swatches: ['#03C75A','#FF5C00','#FFFFFF','#F5F6F8'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Naver Shopping — DESIGN.md
+
+## Color
+Primary:             #03C75A
+Primary Orange:      #FF5C00
+Background:          #FFFFFF
+Surface:             #F5F6F8
+Border:              #E5E8EB
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Sale:                #FF5C00
+Link Blue:           #1A73E8
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               18px / 700 / tabular-nums
+Brand:               12px / 400
+Body:                14px / 400 / 1.6
+Caption:             11px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Badge:               2px
+Image:               4px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+콘텐츠 padding:      16px
+필터 height:         44px
+
+## Key Components
+쇼핑 탭:             전체 · 패션 · 식품 · 가전 · 뷰티 등
+상품 카드:           이미지(1:1) + 브랜드 + 상품명 + 할인율 + 가격 + 별점
+가격 표시:           정가(취소선 gray) + 할인율(orange) + 최종가(700)
+쇼핑라이브:          우측상단 LIVE 배지 + 시청자수
+
+## Motion
+필터 슬라이드:       200ms ease
+상품 이미지 페이지:  swipe 300ms`
+  },
+  {
+    id: 'oliveyoung',
+    name: '올리브영',
+    nameEn: 'Olive Young',
+    category: '이커머스',
+    color: '#006241',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/oliveyoung.co.kr',
+    siteUrl: 'https://www.oliveyoung.co.kr',
+    swatches: ['#006241','#FFFFFF','#F5F5F5','#CDA95E'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Olive Young — DESIGN.md
+
+## Color
+Primary:             #006241
+Primary Light:       #008C5A
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Accent Gold:         #CDA95E
+Sale:                #E8001B
+Badge New:           #006241
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.02em
+Body:                14px / 400 / 1.6
+Price:               16px / 700 / tabular-nums
+Brand:               12px / 500 / 0.04em uppercase
+Caption:             11px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+Input:               4px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+카드 padding:        8px
+탭바 height:         56px
+
+## Key Components
+GNB:                 white · 올리브영 로고(green) · 검색 + 장바구니
+카테고리:            뷰티 · 헬스 · 푸드 · 라이프
+상품 카드:           이미지(3:4) + 브랜드 + 상품명 + 정가/할인가 + 할인율
+정기구독:            정기배송 뱃지 + 추가할인
+
+## Motion
+이미지 전환:         fade 300ms
+장바구니 담기:       bounce 200ms`
+  },
+  {
+    id: 'ohouse',
+    name: '오늘의집',
+    nameEn: 'Ohouse',
+    category: '이커머스',
+    color: '#3B82F6',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/ohou.se',
+    siteUrl: 'https://ohou.se',
+    swatches: ['#3B82F6','#FF4B84','#F5F5F5','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Ohouse — DESIGN.md
+
+## Color
+Primary:             #3B82F6
+Primary Dark:        #2563EB
+Background:          #FFFFFF
+Surface:             #F5F6F8
+Border:              #E5E8EB
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Like:                #FF4B84
+Sale:                #E84C3D
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             18px / 700 / -0.02em
+Body:                14px / 400 / 1.6
+Price:               16px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                8px
+Image:               8px
+Badge:               4px
+Sheet:               20px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            8px
+콘텐츠 padding:      16px
+탭바 height:         56px
+
+## Key Components
+홈 피드:             Pinterest 스타일 2열 폭포형
+사진 카드:           이미지 + 유저명(원형 프로필) + 좋아요
+인테리어 태그:       이미지 위 핫스팟 · 탭하면 상품 정보
+스토어:              상품카드 · 직접 구매 연동
+
+## Motion
+피드 무한스크롤:     스켈레톤 로딩 shimmer
+좋아요 탭:           하트 애니메이션 300ms`
+  },
+  {
+    id: 'zigzag',
+    name: '지그재그',
+    nameEn: 'Zigzag',
+    category: '이커머스',
+    color: '#FF006E',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/zigzag.kr',
+    siteUrl: 'https://zigzag.kr',
+    swatches: ['#FF006E','#FFFFFF','#F5F5F5','#191919'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Zigzag — DESIGN.md
+
+## Color
+Primary:             #FF006E
+Primary Dark:        #CC0058
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Sale:                #FF006E
+
+## Typography
+Font:                Pretendard · Noto Sans KR · system-ui
+Heading:             18px / 700 / -0.02em
+Body:                14px / 400 / 1.6
+Price:               15px / 700 / tabular-nums
+Brand:               11px / 600 / 0.06em uppercase
+Caption:             11px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+Sheet:               16px (상단)
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       4px
+콘텐츠 padding:      12px
+탭바 height:         56px
+
+## Key Components
+홈 카테고리:         여성 쇼핑몰 전문 · 스타일 필터
+상품 그리드:         3열 · 이미지(3:4) + 쇼핑몰명 + 가격
+BEST 랭킹:           일간/주간 순위 + 쇼핑몰별 베스트
+Z결제:               간편결제 · 할부 옵션
+
+## Motion
+이미지 스와이프:     300ms ease-out
+찜 탭:               하트 fillIn 200ms`
+  },
+  {
+    id: 'ably',
+    name: '에이블리',
+    nameEn: 'Ably',
+    category: '이커머스',
+    color: '#FF4B84',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/a-bly.com',
+    siteUrl: 'https://a-bly.com',
+    swatches: ['#FF4B84','#FFFFFF','#FFF0F5','#191919'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Ably — DESIGN.md
+
+## Color
+Primary:             #FF4B84
+Primary Dark:        #E03070
+Background:          #FFFFFF
+Surface:             #FFF0F5
+Surface Gray:        #F8F8F8
+Border:              #FFD6E7
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Sale:                #FF4B84
+
+## Typography
+Font:                Pretendard · Noto Sans KR · system-ui
+Heading:             18px / 700 / -0.02em
+Body:                14px / 400 / 1.6
+Price:               15px / 700 / tabular-nums
+Brand:               11px / 600 / uppercase
+Caption:             11px / 400
+
+## Border Radius
+Button:              999px (pill)
+Card:                8px
+Image:               8px
+Badge:               999px
+Sheet:               20px (상단)
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+콘텐츠 padding:      16px
+탭바 height:         56px
+
+## Key Components
+홈 피드:             인스타그램형 · 쇼핑몰 MD 큐레이션
+상품 카드:           이미지(1:1) + 쇼핑몰명 + 상품명 + 가격
+스타일링:            인플루언서 코디 이미지 + 아이템 태그
+에이블리 패스:       구독제 · 월정액 무료배송
+
+## Motion
+배너 자동재생:       fade 4000ms interval
+좋아요:              하트 pulse 200ms`
+  },
+  {
+    id: 'ssg',
+    name: 'SSG닷컴',
+    nameEn: 'SSG.com',
+    category: '이커머스',
+    color: '#FF0100',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/ssg.com',
+    siteUrl: 'https://www.ssg.com',
+    swatches: ['#FF0100','#1A1A1A','#F5F5F5','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# SSG.com — DESIGN.md
+
+## Color
+Primary:             #FF0100
+Primary Dark:        #CC0100
+Background:          #FFFFFF
+Surface:             #F5F5F5
+Border:              #E0E0E0
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Sale:                #FF0100
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               18px / 700 / tabular-nums
+Brand:               12px / 500
+Body:                14px / 400 / 1.6
+Caption:             11px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+콘텐츠 padding:      16px
+탭바 height:         56px
+
+## Key Components
+SSG 브랜드몰:        백화점 · 마트 · 면세점 통합
+명품:                신세계백화점 명품관 연동
+쓱배송:              당일/새벽 배송 옵션
+포인트:              SSG 머니 · 신세계포인트
+
+## Motion
+배너 슬라이드:       300ms ease
+상품 이미지:         swipe 250ms ease-out`
+  },
+  {
+    id: '11street',
+    name: '11번가',
+    nameEn: '11Street',
+    category: '이커머스',
+    color: '#FF5000',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/11st.co.kr',
+    siteUrl: 'https://www.11st.co.kr',
+    swatches: ['#FF5000','#1A1A1A','#F8F8F8','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# 11Street — DESIGN.md
+
+## Color
+Primary:             #FF5000
+Primary Dark:        #E04500
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Sale:                #FF5000
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             11px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+콘텐츠 padding:      16px
+탭바 height:         56px
+
+## Key Components
+GNB:                 white · 11번가 로고(orange) · 검색
+아마존 직구:         아마존 상품 한국 배송
+쇼킹딜:              타임특가 · 카운트다운 타이머
+SK페이:              간편결제 · T포인트 연동
+
+## Motion
+타임특가 타이머:     digit flip 1000ms interval
+장바구니 추가:       bounce 200ms`
+  },
+
+  /* ── 배달 ── */
+  {
+    id: 'coupangeats',
+    name: '쿠팡이츠',
+    nameEn: 'Coupang Eats',
+    category: '배달',
+    color: '#E04E39',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/coupangeats.com',
+    siteUrl: 'https://www.coupangeats.com',
+    swatches: ['#E04E39','#1E4CE3','#FFFFFF','#F7F8FA'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Coupang Eats — DESIGN.md
+
+## Color
+Primary:             #E04E39
+Primary Dark:        #C43D2A
+Background:          #FFFFFF
+Surface:             #F7F8FA
+Border:              #E4E7ED
+Text Primary:        #111827
+Text Secondary:      #6B7280
+Text Hint:           #9CA3AF
+Success:             #10B981
+Error:               #EF4444
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.01em
+Body:                14px / 400 / 1.6
+가게명:              16px / 700
+금액:                16px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                8px
+Image:               8px
+Badge:               999px
+Sheet:               16px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            12px
+카드 padding:        12px
+탭바 height:         60px
+
+## Key Components
+GNB:                 white · 쿠팡이츠 로고(red) · 주소 선택
+가게 카드:           썸네일(16:9) + 가게명 + 별점 + 배달비 + 예상 시간
+단건배달:            라이더 실시간 위치 트래킹 · 지도 표시
+로켓배달:            쿠팡 멤버십 연동 무료 배달
+
+## Motion
+배달 트래킹:         지도 마커 실시간 이동
+카드 탭:             scale(0.97) 100ms`
+  },
+  {
+    id: 'kurly',
+    name: '마켓컬리',
+    nameEn: 'Market Kurly',
+    category: '배달',
+    color: '#5F0080',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/kurly.com',
+    siteUrl: 'https://www.kurly.com',
+    swatches: ['#5F0080','#F9F0FC','#00B386','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Market Kurly — DESIGN.md
+
+## Color
+Primary:             #5F0080
+Primary Light:       #8B00B8
+Background:          #FFFFFF
+Surface:             #F9F0FC
+Surface Gray:        #F7F7F7
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Sale:                #5F0080
+Fresh:               #00B386
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.02em
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+카드 padding:        12px
+탭바 height:         60px
+
+## Key Components
+새벽배송:            밤 11시 주문 → 새벽 배송
+상품 카드:           이미지(3:4) + 상품명 + 가격 + 할인율
+컬리추천:            MD 큐레이션 · 테마별 묶음
+샛별배송:            온도 표시 · 신선도 보장 배지
+
+## Motion
+배너 슬라이드:       fade 400ms
+상품 이미지 스와이프: 300ms ease-out`
+  },
+  {
+    id: 'oasismarket',
+    name: '오아시스마켓',
+    nameEn: 'Oasis Market',
+    category: '배달',
+    color: '#00A36C',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/oasis.co.kr',
+    siteUrl: 'https://www.oasis.co.kr',
+    swatches: ['#00A36C','#F7FBF8','#E8272F','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Oasis Market — DESIGN.md
+
+## Color
+Primary:             #00A36C
+Primary Dark:        #007A50
+Background:          #FFFFFF
+Surface:             #F7FBF8
+Border:              #E0EDE6
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Fresh:               #00A36C
+Sale:                #E8272F
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               17px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              6px
+Card:                6px
+Image:               6px
+Badge:               3px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+카드 padding:        10px
+탭바 height:         56px
+
+## Key Components
+새벽배송:            유기농/친환경 식품 특화
+상품 카드:           이미지 + 원산지 정보 + 가격
+친환경 배지:         유기농/무농약/HACCP 표시
+정기구매:            자주 사는 상품 정기 배송
+
+## Motion
+카드 fade-in:        stagger 80ms
+장바구니 추가:       bounce 150ms`
+  },
+  {
+    id: 'ddangyeo',
+    name: '땡겨요',
+    nameEn: 'Ddangyeo',
+    category: '배달',
+    color: '#FF4E00',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/ddangyeo.com',
+    siteUrl: 'https://www.ddangyeo.com',
+    swatches: ['#FF4E00','#FFFFFF','#F8F8F8','#00B386'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Ddangyeo — DESIGN.md
+
+## Color
+Primary:             #FF4E00
+Primary Dark:        #E04000
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Star:                #FFB800
+Success:             #00B386
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Body:                14px / 400 / 1.6
+가게명:              16px / 700
+금액:                16px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                10px
+Image:               8px
+Badge:               999px
+
+## Spacing
+GNB height:          56px
+카드 gap:            12px
+탭바 height:         60px
+
+## Key Components
+신한카드 제휴:       신한카드 결제 추가 할인
+가게 카드:           썸네일 + 가게명 + 배달비 + 별점
+소상공인:            지역 소상공인 특화 플랫폼
+주문 추적:           실시간 배달 위치 표시
+
+## Motion
+배달 트래킹:         지도 마커 이동 1s interval
+카드 탭:             scale(0.97) 100ms`
+  },
+  {
+    id: 'gsfresh',
+    name: 'GS프레시',
+    nameEn: 'GS Fresh',
+    category: '배달',
+    color: '#01A551',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/gsretail.com',
+    siteUrl: 'https://www.gsfresh.com',
+    swatches: ['#01A551','#0068B7','#F8FBF8','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# GS Fresh — DESIGN.md
+
+## Color
+Primary:             #01A551
+Primary Dark:        #008A40
+Background:          #FFFFFF
+Surface:             #F8FBF8
+Border:              #E0EDE0
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+GS Blue:             #0068B7
+Sale:                #E8272F
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               17px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+카드 padding:        10px
+탭바 height:         56px
+
+## Key Components
+당일배송:            오전 주문 → 당일 배달
+GS25 편의점:         편의점 상품 즉시 배달
+신선식품:            채소/육류/수산물 카테고리
+GS포인트:            구매시 포인트 적립
+
+## Motion
+배너 autoplay:       4000ms interval · fade
+상품 로딩:           skeleton shimmer`
+  },
+  {
+    id: 'lottemall',
+    name: '롯데마트몰',
+    nameEn: 'Lotte Mart Mall',
+    category: '배달',
+    color: '#E4000F',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/lotteon.com',
+    siteUrl: 'https://www.lotteon.com',
+    swatches: ['#E4000F','#1A1A1A','#F8F8F8','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Lotte Mart Mall — DESIGN.md
+
+## Color
+Primary:             #E4000F
+Primary Dark:        #BB000C
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Sale:                #E4000F
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             11px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+카드 padding:        12px
+탭바 height:         56px
+
+## Key Components
+바로배송:            롯데마트 매장 재고 즉시 배달
+엘포인트:            구매 포인트 적립 · 카드 연동
+타임세일:            시간대별 특가 · 카운트다운
+롯데멤버스:          엘포인트 통합 관리
+
+## Motion
+타임세일 타이머:     digit roll 1000ms
+배너 슬라이드:       300ms ease`
+  },
+  {
+    id: 'homeplus',
+    name: '홈플러스온라인',
+    nameEn: 'Homeplus Online',
+    category: '배달',
+    color: '#0064B4',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/homeplus.co.kr',
+    siteUrl: 'https://mfront.homeplus.co.kr',
+    swatches: ['#0064B4','#F5F8FC','#E8272F','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Homeplus Online — DESIGN.md
+
+## Color
+Primary:             #0064B4
+Primary Dark:        #004E8C
+Background:          #FFFFFF
+Surface:             #F5F8FC
+Border:              #DDE5EE
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Sale:                #E8272F
+Fresh:               #00B386
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             11px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+상품 카드 gap:       8px
+카드 padding:        12px
+탭바 height:         56px
+
+## Key Components
+당일/새벽배송:       홈플러스 마트 재고 연계
+신선식품:            신선도 등급 표시
+마이홈플러스:        구매 내역 · 영수증 관리
+홈플러스포인트:      구매 포인트 · 제휴 카드
+
+## Motion
+배너 슬라이드:       300ms ease-out
+장바구니 추가:       badge 카운트업`
+  },
+
+  /* ── 뱅킹 ── */
+  {
+    id: 'kbank',
+    name: '케이뱅크',
+    nameEn: 'K-bank',
+    category: '뱅킹',
+    color: '#FF5000',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/kbanknow.com',
+    siteUrl: 'https://www.kbanknow.com',
+    swatches: ['#FF5000','#1A1A1A','#FFFFFF','#00B386'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# K-bank — DESIGN.md
+
+## Color
+Primary:             #FF5000
+Primary Dark:        #E04500
+Background:          #FFFFFF
+Surface:             #F7F7F7
+Border:              #E5E5E5
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Label:               13px / 500
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                16px
+Account:             16px
+Input:               8px
+Sheet:               20px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         52px
+리스트 height:       60px
+탭바 height:         60px
+
+## Key Components
+계좌 카드:           orange accent · 잔액 30px · 계좌번호
+이체 버튼:           #FF5000 · white · 52px
+거래 내역:           카테고리 아이콘(40px) + 내용 + 금액
+코인원 연동:         가상자산 거래 · 실시간 시세
+
+## Motion
+잔액 업데이트:       roll 300ms ease-out
+차트 진입:           drawPath 800ms ease`
+  },
+  {
+    id: 'tossbank',
+    name: '토스뱅크',
+    nameEn: 'Toss Bank',
+    category: '뱅킹',
+    color: '#3182F6',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/tossbank.com',
+    siteUrl: 'https://www.tossbank.com',
+    swatches: ['#3182F6','#191F28','#F9FAFB','#00B493'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Toss Bank — DESIGN.md
+
+## Color
+Primary:             #3182F6
+Primary Hover:       #1B64DA
+Background:          #F9FAFB
+Surface:             #FFFFFF
+Border:              #E5E8EB
+Text Primary:        #191F28
+Text Secondary:      #4E5968
+Text Tertiary:       #8B95A1
+Success:             #00B493
+Warning:             #F59E0B
+Error:               #F04452
+
+## Typography
+Font:                Toss Product Sans · Pretendard
+Heading:             24px / 700 / -0.025em
+Balance:             32px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Label:               13px / 500
+Caption:             12px / 400
+
+## Border Radius
+Button:              12px
+Card:                16px
+Account:             20px
+Input:               8px
+Sheet:               20px (상단)
+
+## Spacing
+카드 padding:        22px
+버튼 height:         54px
+리스트 height:       62px
+탭바 height:         56px
+
+## Key Components
+계좌 카드:           white · 3182F6 accent stripe · 잔액 32px
+이체 버튼:           #3182F6 · white · 12px radius · full-width
+거래 내역:           카테고리 아이콘 + 내용 + 금액(+/- 색상)
+이자 받기:           매일 자정 이자 지급 · 카운트다운
+
+## Motion
+잔액 카운트:         1.2s ease-out (토스 공통)
+이자 지급:           confetti 애니메이션`
+  },
+  {
+    id: 'kbstar',
+    name: 'KB스타뱅킹',
+    nameEn: 'KB Star Banking',
+    category: '뱅킹',
+    color: '#FFB800',
+    textOnColor: '#191919',
+    logoUrl: 'https://logo.clearbit.com/kbstar.com',
+    siteUrl: 'https://www.kbstar.com',
+    swatches: ['#FFB800','#1A1A1A','#FFFFFF','#F5F5F5'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# KB Star Banking — DESIGN.md
+
+## Color
+Primary:             #FFB800
+Primary Dark:        #F0A800
+Background:          #FFFFFF
+Surface:             #F5F5F5
+Border:              #E0E0E0
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+
+## Typography
+Font:                KB금융체 · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              4px
+Card:                8px
+Account:             12px
+Input:               4px
+Sheet:               16px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         50px
+리스트 height:       60px
+탭바 height:         56px
+
+## Key Components
+계좌 카드:           #1A1A1A 배경 · KB Yellow 포인트 · 잔액 30px
+이체:                자주 쓰는 계좌 최상단 · 최근 이체 내역
+금융상품:            예금/적금/대출 카드 형태
+KB PAY:              간편결제 통합
+
+## Motion
+페이지 로딩:         KB 로딩 스피너 (yellow)
+잔액 숨기기:         blur(4px) toggle 200ms`
+  },
+  {
+    id: 'shinhan',
+    name: '신한 SOL뱅크',
+    nameEn: 'Shinhan SOL',
+    category: '뱅킹',
+    color: '#0046FF',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/shinhan.com',
+    siteUrl: 'https://www.shinhan.com',
+    swatches: ['#0046FF','#FF5A00','#FFFFFF','#F5F5F5'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Shinhan SOL Bank — DESIGN.md
+
+## Color
+Primary:             #0046FF
+Primary Dark:        #0038CC
+Accent Orange:       #FF5A00
+Background:          #FFFFFF
+Surface:             #F5F6F8
+Border:              #E5E8EB
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+
+## Typography
+Font:                신한고딕 · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Account:             16px
+Input:               8px
+Sheet:               20px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         52px
+리스트 height:       60px
+탭바 height:         60px
+
+## Key Components
+계좌 카드:           blue gradient · white text · 잔액 30px
+이체:                QR이체 · 계좌이체 · 자동이체
+SOL페이:             간편결제 · 신한카드 연동
+자산관리:            전체 자산 집계 · 그래프 시각화
+
+## Motion
+자산 그래프:         drawBar 600ms ease
+이체 완료:           체크 pop 400ms`
+  },
+  {
+    id: 'nhbank',
+    name: 'NH올원뱅크',
+    nameEn: 'NH All One Bank',
+    category: '뱅킹',
+    color: '#00A651',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/nonghyup.com',
+    siteUrl: 'https://banking.nonghyup.com',
+    swatches: ['#00A651','#F5F8F5','#FFFFFF','#DDE8DD'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# NH All One Bank — DESIGN.md
+
+## Color
+Primary:             #00A651
+Primary Dark:        #008040
+Background:          #FFFFFF
+Surface:             #F5F8F5
+Border:              #DDE8DD
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00A651
+Error:               #FF4040
+
+## Typography
+Font:                NH서체 · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Account:             16px
+Input:               8px
+Sheet:               20px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         52px
+리스트 height:       60px
+탭바 height:         56px
+
+## Key Components
+계좌 카드:           green accent · 잔액 + 계좌번호
+이체:                자주 쓰는 계좌 · 최근 이체
+NH페이:              간편결제 · 농협카드 연동
+농촌사랑:            농산물 직거래 · 농업인 혜택
+
+## Motion
+잔액 카운트:         roll-up 400ms
+이체 완료:           체크 bounce 300ms`
+  },
+  {
+    id: 'hanabank',
+    name: '하나원큐',
+    nameEn: 'Hana OneQ',
+    category: '뱅킹',
+    color: '#009570',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/hanabank.com',
+    siteUrl: 'https://www.hanabank.com',
+    swatches: ['#009570','#F5FAF8','#FFFFFF','#DDE8E4'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Hana OneQ — DESIGN.md
+
+## Color
+Primary:             #009570
+Primary Dark:        #007558
+Background:          #FFFFFF
+Surface:             #F5FAF8
+Border:              #DDE8E4
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #009570
+Error:               #FF4040
+
+## Typography
+Font:                하나체 · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                16px
+Account:             16px
+Input:               8px
+Sheet:               20px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         54px
+리스트 height:       64px
+탭바 height:         60px
+
+## Key Components
+계좌 카드:           teal gradient · 잔액 30px · 계좌번호
+이체:                1Q 이체 · 최근/자주 이체
+하나페이:            간편결제 · 하나카드 연동
+외환:                환율 조회 · 외화 환전 예약
+
+## Motion
+환율 업데이트:       flash highlight 200ms
+이체 완료:           checkmark grow 400ms`
+  },
+  {
+    id: 'wooribank',
+    name: '우리WON뱅킹',
+    nameEn: 'Woori WON Banking',
+    category: '뱅킹',
+    color: '#0068B7',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/wooribank.com',
+    siteUrl: 'https://www.wooribank.com',
+    swatches: ['#0068B7','#F5F8FC','#FFFFFF','#DDE5EE'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Woori WON Banking — DESIGN.md
+
+## Color
+Primary:             #0068B7
+Primary Dark:        #0052A0
+Background:          #FFFFFF
+Surface:             #F5F8FC
+Border:              #DDE5EE
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+
+## Typography
+Font:                우리체 · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Account:             16px
+Input:               8px
+Sheet:               20px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         52px
+리스트 height:       60px
+탭바 height:         56px
+
+## Key Components
+WON 계좌:            blue gradient · 잔액 + 계좌번호
+이체:                최근 이체 · 즐겨찾기 계좌
+위비페이:            간편결제 · 우리카드 연동
+AI자산관리:          자산 현황 · 지출 패턴 분석
+
+## Motion
+잔액 로딩:           skeleton shimmer 1s
+이체 완료:           confetti light 500ms`
+  },
+  {
+    id: 'ibkbank',
+    name: 'IBK기업은행',
+    nameEn: 'IBK Bank',
+    category: '뱅킹',
+    color: '#005BAC',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/ibk.co.kr',
+    siteUrl: 'https://www.ibk.co.kr',
+    swatches: ['#005BAC','#F5F8FC','#FFFFFF','#DDE5EE'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# IBK Bank — DESIGN.md
+
+## Color
+Primary:             #005BAC
+Primary Dark:        #004A8C
+Background:          #FFFFFF
+Surface:             #F5F8FC
+Border:              #DDE5EE
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Success:             #00B386
+Error:               #FF4040
+
+## Typography
+Font:                IBK체 · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em
+Balance:             30px / 700 / tabular-nums
+Body:                15px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              4px
+Card:                8px
+Account:             12px
+Input:               4px
+Sheet:               16px (상단)
+
+## Spacing
+카드 padding:        20px
+버튼 height:         50px
+리스트 height:       60px
+탭바 height:         56px
+
+## Key Components
+기업 전용:           중소기업 · 소상공인 금융 특화
+IBK계좌:             blue · 잔액 · 계좌번호
+기업대출:            운전자금 · 시설자금 대출 신청
+IBK pay:             간편결제 · 지방세 납부
+
+## Motion
+페이지 전환:         slide 200ms ease
+잔액 숨기기:         blur toggle 200ms`
+  },
+
+  /* ── 여행 ── */
+  {
+    id: 'yeogi',
+    name: '여기어때',
+    nameEn: 'Yeogi',
+    category: '여행',
+    color: '#FF5500',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/yeogi.com',
+    siteUrl: 'https://www.yeogi.com',
+    swatches: ['#FF5500','#FFFFFF','#F5F5F5','#FFB800'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Yeogi — DESIGN.md
+
+## Color
+Primary:             #FF5500
+Primary Dark:        #E04500
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #EBEBEB
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Star:                #FFB800
+Sale:                #FF5500
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.02em
+Body:                14px / 400 / 1.6
+Price:               18px / 700 / tabular-nums
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Image:               8px
+Sheet:               20px (상단)
+Badge:               4px
+
+## Spacing
+GNB height:          56px
+검색창 height:       48px
+카드 padding:        14px
+탭바 height:         56px
+
+## Key Components
+GNB:                 white · 여기어때 로고(orange) · 주소 선택
+검색:                숙소 유형 · 날짜 · 인원 · 할인 필터
+숙소 카드:           이미지(3:2) + 이름 + 별점 + 가격(1박 기준)
+오늘 숙박:           당일 예약 전용 · 타이머 + 잔여 객실
+
+## Motion
+날짜 선택:           calendar slide 250ms
+가격 변동:           flash highlight 400ms`
+  },
+  {
+    id: 'triple',
+    name: '트리플',
+    nameEn: 'Triple',
+    category: '여행',
+    color: '#5B6EE8',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/triple.guide',
+    siteUrl: 'https://triple.guide',
+    swatches: ['#5B6EE8','#FF4B84','#F6F7FD','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Triple — DESIGN.md
+
+## Color
+Primary:             #5B6EE8
+Primary Dark:        #4558D8
+Background:          #FFFFFF
+Surface:             #F6F7FD
+Border:              #E8EAFF
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Like:                #FF4B84
+Map Accent:          #5B6EE8
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.02em
+Body:                14px / 400 / 1.7
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Image:               12px
+Badge:               999px
+Sheet:               20px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            16px
+카드 padding:        16px
+탭바 height:         56px
+
+## Key Components
+여행지 카드:         이미지 + 여행지명 + 세부 지역
+일정 만들기:         드래그&드롭 · 날짜별 스케줄
+리뷰:                스팟별 사용자 리뷰 + 사진
+지도 연동:           Google Map · 스팟 마커 + 클러스터링
+
+## Motion
+일정 카드 drag:      spring physics
+지도 줌:             smooth scale`
+  },
+  {
+    id: 'myrealtrip',
+    name: '마이리얼트립',
+    nameEn: 'MyRealTrip',
+    category: '여행',
+    color: '#00C4C4',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/myrealtrip.com',
+    siteUrl: 'https://www.myrealtrip.com',
+    swatches: ['#00C4C4','#F5FCFC','#FF5A00','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# MyRealTrip — DESIGN.md
+
+## Color
+Primary:             #00C4C4
+Primary Dark:        #00A0A0
+Background:          #FFFFFF
+Surface:             #F5FCFC
+Border:              #DDEEEE
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Star:                #FFB800
+Sale:                #FF5A00
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.02em
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.7
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Image:               12px
+Badge:               999px
+Sheet:               20px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            16px
+카드 padding:        16px
+탭바 height:         56px
+
+## Key Components
+여행 상품:           항공 · 호텔 · 투어&액티비티 · 렌트카
+투어 카드:           이미지 + 이름 + 평점(★) + 가격
+로컬 가이드:         현지인 가이드 투어 · 리뷰
+즉시 확정:           예약 즉시 확정 배지
+
+## Motion
+검색 결과:           stagger fade-up 50ms
+날짜 피커:           calendar slide 250ms`
+  },
+  {
+    id: 'hanatour',
+    name: '하나투어',
+    nameEn: 'Hana Tour',
+    category: '여행',
+    color: '#1A78C2',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/hanatour.com',
+    siteUrl: 'https://www.hanatour.com',
+    swatches: ['#1A78C2','#F5F8FC','#E8272F','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Hana Tour — DESIGN.md
+
+## Color
+Primary:             #1A78C2
+Primary Dark:        #1262A0
+Background:          #FFFFFF
+Surface:             #F5F8FC
+Border:              #DDE5EE
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Star:                #FFB800
+Sale:                #E8272F
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              4px
+Card:                8px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          60px (데스크톱)
+카드 gap:            16px
+카드 padding:        16px
+탭바 height:         56px
+
+## Key Components
+패키지 여행:         항공+호텔 패키지 묶음 구성
+여행지 카드:         이미지 + 여행지 + 기간 + 가격
+자유여행:            항공 · 호텔 · 액티비티 개별 구매
+보험:                여행자 보험 자동 포함 옵션
+
+## Motion
+이미지 슬라이드:     fade 500ms
+필터 전환:           200ms ease`
+  },
+  {
+    id: 'klook',
+    name: '클룩',
+    nameEn: 'Klook',
+    category: '여행',
+    color: '#FF5722',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/klook.com',
+    siteUrl: 'https://www.klook.com/ko',
+    swatches: ['#FF5722','#FFFFFF','#F8F8F8','#FFB800'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Klook — DESIGN.md
+
+## Color
+Primary:             #FF5722
+Primary Dark:        #E64A19
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #BBBBBB
+Star:                #FFB800
+Sale:                #FF5722
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700 / -0.01em
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Image:               12px
+Badge:               999px
+Sheet:               20px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            16px
+카드 padding:        16px
+탭바 height:         56px
+
+## Key Components
+액티비티:            전세계 여행 체험 · 즉시 예약
+카드 형태:           이미지(3:2) + 이름 + 평점 + 가격
+QR 사용:             현지 QR 코드 모바일 티켓
+카테고리:            투어 · 어트랙션 · 교통 · 음식
+
+## Motion
+카드 hover:          scale(1.02) 200ms
+즐겨찾기:            heart pop 250ms`
+  },
+  {
+    id: 'airbnb',
+    name: '에어비앤비',
+    nameEn: 'Airbnb',
+    category: '여행',
+    color: '#FF385C',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/airbnb.com',
+    siteUrl: 'https://www.airbnb.co.kr',
+    swatches: ['#FF385C','#FFFFFF','#F7F7F7','#222222'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Airbnb — DESIGN.md
+
+## Color
+Primary:             #FF385C
+Primary Dark:        #E31C5F
+Background:          #FFFFFF
+Surface:             #F7F7F7
+Border:              #DDDDDD
+Text Primary:        #222222
+Text Secondary:      #717171
+Text Tertiary:       #B0B0B0
+Star:                #FF385C
+Like:                #FF385C
+
+## Typography
+Font:                Cereal · Noto Sans KR · system-ui
+Heading:             22px / 600 / -0.03em
+Price:               16px / 600 / tabular-nums
+Body:                16px / 400 / 1.7
+Caption:             14px / 400
+
+## Border Radius
+Button:              8px
+Card:                12px
+Image:               12px
+Input:               8px
+Modal:               12px
+
+## Spacing
+GNB height:          80px (데스크톱)
+카드 gap:            24px (데스크톱)
+카드 padding:        12px 0
+콘텐츠 max-width:   1760px
+
+## Key Components
+숙소 카드:           이미지(3:2) · carousel · 이름 + 위치 + 가격
+지도 뷰:             Mapbox · 가격 클러스터 표시
+검색 바:             위치 · 체크인/아웃 · 인원 통합 검색
+위시리스트:          하트 탭 · 컬렉션 저장
+
+## Motion
+이미지 carousel:     snap 300ms
+지도 마커 hover:     scale(1.1) 200ms`
+  },
+  {
+    id: 'booking',
+    name: '부킹닷컴',
+    nameEn: 'Booking.com',
+    category: '여행',
+    color: '#003580',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/booking.com',
+    siteUrl: 'https://www.booking.com',
+    swatches: ['#003580','#F2F2F2','#FFB700','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Booking.com — DESIGN.md
+
+## Color
+Primary:             #003580
+Primary Dark:        #002A66
+Background:          #FFFFFF
+Surface:             #F2F2F2
+Border:              #E7E7E7
+Text Primary:        #1A1A1A
+Text Secondary:      #6B6B6B
+Text Hint:           #AAAAAA
+Star:                #FFB700
+Sale:                #CC0000
+
+## Typography
+Font:                BlinkMacSystemFont · Noto Sans KR · system-ui
+Heading:             24px / 700
+Price:               20px / 700 / tabular-nums
+Body:                14px / 400 / 1.5
+Caption:             12px / 400
+
+## Border Radius
+Button:              4px
+Card:                4px
+Input:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          64px (데스크톱)
+카드 gap:            16px
+카드 padding:        16px
+검색 height:         56px
+
+## Key Components
+호텔 카드:           이미지 + 이름 + 평점 + 위치 + 가격
+무료 취소:           무료취소 배지 강조
+지니어스:            충성 고객 등급별 할인
+지도 뷰:             숙소 위치 지도 · 클러스터
+
+## Motion
+검색 결과:           instant load
+필터 적용:           fade 150ms`
+  },
+  {
+    id: 'modetour',
+    name: '모두투어',
+    nameEn: 'Modetour',
+    category: '여행',
+    color: '#E8272F',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/modetour.com',
+    siteUrl: 'https://www.modetour.com',
+    swatches: ['#E8272F','#F8F8F8','#FFB800','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Modetour — DESIGN.md
+
+## Color
+Primary:             #E8272F
+Primary Dark:        #C21A22
+Background:          #FFFFFF
+Surface:             #F8F8F8
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #555555
+Text Hint:           #AAAAAA
+Star:                #FFB800
+Sale:                #E8272F
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             20px / 700
+Price:               18px / 700 / tabular-nums
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+
+## Border Radius
+Button:              4px
+Card:                8px
+Image:               4px
+Badge:               2px
+
+## Spacing
+GNB height:          60px (데스크톱)
+카드 gap:            16px
+카드 padding:        16px
+탭바 height:         56px
+
+## Key Components
+패키지 여행:         항공+호텔+현지투어 묶음
+여행지 카드:         이미지 + 여행지 + 출발일 + 가격
+골든시티:            모두투어 직영 여행사 상품
+멤버십:              모두투어 포인트 적립
+
+## Motion
+여행지 배너:         fade slide 4000ms
+필터 적용:           200ms ease`
+  },
+
+  /* ── 포털 ── */
+  {
+    id: 'daum',
+    name: '다음',
+    nameEn: 'Daum',
+    category: '포털',
+    color: '#FF5A00',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/daum.net',
+    siteUrl: 'https://www.daum.net',
+    swatches: ['#FF5A00','#191919','#F5F5F5','#1A6EF1'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Daum — DESIGN.md
+
+## Color
+Primary:             #FF5A00
+Primary Dark:        #E04800
+Background:          #FFFFFF
+Surface:             #F5F5F5
+Border:              #E5E5E5
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Link:                #1A6EF1
+Tab Active:          #FF5A00
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             18px / 700
+Body:                14px / 400 / 1.7
+Caption:             12px / 400
+News Title:          15px / 700
+
+## Border Radius
+Button:              4px
+Card:                4px
+Badge:               2px
+Input:               4px
+
+## Spacing
+GNB height:          56px
+검색창 height:       44px
+콘텐츠 padding:      12px
+뉴스 카드 gap:       12px
+
+## Key Components
+GNB:                 white · 다음 로고(orange) · 검색창
+뉴스 카드:           썸네일(80×60) + 제목(700) + 언론사 + 시간
+실시간 이슈:         순위 + 키워드 텍스트
+카페:                커뮤니티 탭 · 인기글 카드
+
+## Motion
+검색 자동완성:       150ms ease-out
+뉴스 탭 전환:        200ms ease`
+  },
+  {
+    id: 'google',
+    name: '구글',
+    nameEn: 'Google',
+    category: '포털',
+    color: '#4285F4',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/google.com',
+    siteUrl: 'https://www.google.co.kr',
+    swatches: ['#4285F4','#EA4335','#FBBC05','#34A853'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Google — DESIGN.md
+
+## Color
+Primary Blue:        #4285F4
+Primary Red:         #EA4335
+Primary Yellow:      #FBBC05
+Primary Green:       #34A853
+Background:          #FFFFFF
+Surface:             #F8F9FA
+Border:              #DADCE0
+Text Primary:        #202124
+Text Secondary:      #5F6368
+Link:                #1A0DAB
+
+## Typography
+Font:                Product Sans · Noto Sans KR · system-ui
+Heading:             20px / 400
+Search:              20px / 400 / #202124
+Body:                14px / 400 / 1.5 / #4D5156
+Caption:             12px / 400
+Result Link:         18px / 400 / #1A0DAB
+
+## Border Radius
+검색창:              24px
+Button:              4px
+Card:                8px
+Badge:               4px
+
+## Spacing
+검색창 height:       44px (모바일) · 46px (데스크톱)
+결과 간격:           24px
+콘텐츠 max-width:   652px
+
+## Key Components
+검색창:              Multicolored border on focus · voice · camera
+검색 결과:           링크(파랑) + URL(녹색) + 설명
+지식 패널:           우측 카드 · 구조화 데이터
+I'm Feeling Lucky:   랜덤 검색 직행
+
+## Motion
+자동완성:            instant dropdown
+검색창 포커스:       border color transition 200ms`
+  },
+  {
+    id: 'youtube',
+    name: '유튜브',
+    nameEn: 'YouTube',
+    category: '포털',
+    color: '#FF0000',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/youtube.com',
+    siteUrl: 'https://www.youtube.com',
+    swatches: ['#FF0000','#0F0F0F','#F2F2F2','#606060'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# YouTube — DESIGN.md
+
+## Color
+Primary:             #FF0000
+Primary Dark:        #CC0000
+Background:          #FFFFFF
+Surface:             #F2F2F2
+Surface Dark:        #0F0F0F
+Border:              #E5E5E5
+Text Primary:        #0F0F0F
+Text Secondary:      #606060
+Text Tertiary:       #AAAAAA
+Subscribed:          #CC0000
+Live:                #FF0000
+
+## Typography
+Font:                Roboto · Noto Sans KR · system-ui
+Heading:             20px / 500
+Video Title:         16px / 500 / -0.01em
+Channel:             14px / 400 / #606060
+Meta:                13px / 400 / #606060
+Caption:             12px / 400
+
+## Border Radius
+썸네일:              0px (sharp)
+Avatar:              50%
+Button:              18px (pill)
+Badge:               4px
+
+## Spacing
+GNB height:          56px
+썸네일 비율:         16:9
+비디오 카드 gap:     16px
+탭바 height:         56px (모바일)
+
+## Key Components
+GNB:                 white · YouTube 로고 + 검색창 + 아이콘
+비디오 카드:         썸네일(16:9) + 제목 + 채널명 + 조회수 + 시간
+쇼츠:                세로형 9:16 · 무한스크롤
+재생 바:             빨강 · 호버 시 두꺼워짐
+
+## Motion
+재생 바:             smooth scrub
+자동 미리보기:       hover 2초 후 무음 재생`
+  },
+  {
+    id: 'nate',
+    name: '네이트',
+    nameEn: 'Nate',
+    category: '포털',
+    color: '#FF5A00',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/nate.com',
+    siteUrl: 'https://www.nate.com',
+    swatches: ['#FF5A00','#1A1A1A','#F5F5F5','#0066CC'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Nate — DESIGN.md
+
+## Color
+Primary:             #FF5A00
+Primary Dark:        #E04800
+Background:          #FFFFFF
+Surface:             #F5F5F5
+Border:              #E0E0E0
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Link:                #0066CC
+Tab Active:          #FF5A00
+
+## Typography
+Font:                Noto Sans KR · 맑은 고딕 · system-ui
+Heading:             18px / 700
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+News Title:          15px / 700
+
+## Border Radius
+Button:              4px
+Card:                4px
+Badge:               2px
+
+## Spacing
+GNB height:          56px
+뉴스 카드 gap:       8px
+콘텐츠 padding:      16px
+
+## Key Components
+GNB:                 white · 네이트 로고(orange) · 검색
+뉴스:                실시간 인기 뉴스 · 언론사별
+판:                  커뮤니티 · 인기글 · 댓글
+네이트온:            메신저 연동 · 상태 표시
+
+## Motion
+뉴스 로딩:           skeleton shimmer
+탭 전환:             200ms ease`
+  },
+  {
+    id: 'tistory',
+    name: '티스토리',
+    nameEn: 'Tistory',
+    category: '포털',
+    color: '#FF5A00',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/tistory.com',
+    siteUrl: 'https://www.tistory.com',
+    swatches: ['#FF5A00','#1A1A1A','#F9F9F9','#E8E8E8'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Tistory — DESIGN.md
+
+## Color
+Primary:             #FF5A00
+Primary Dark:        #E04800
+Background:          #FFFFFF
+Surface:             #F9F9F9
+Border:              #E8E8E8
+Text Primary:        #1A1A1A
+Text Secondary:      #666666
+Text Hint:           #AAAAAA
+Editor Accent:       #FF5A00
+
+## Typography
+Font:                Noto Sans KR · Noto Serif KR · system-ui
+Heading:             24px / 700 / -0.02em
+Body:                16px / 400 / 1.9
+Caption:             12px / 400
+Code:                14px / 400 / JetBrains Mono
+
+## Border Radius
+Button:              4px
+Card:                8px
+Image:               4px
+코드블록:             4px
+
+## Spacing
+콘텐츠 max-width:   680px
+섹션 gap:            40px
+이미지 margin:       32px auto
+
+## Key Components
+블로그 홈:           사이드바 + 포스트 목록
+포스트 에디터:       WYSIWYG · 마크다운 지원
+댓글:                카카오 계정 연동
+통계:                방문자 · 구독자 차트
+
+## Motion
+이미지 로드:         fade-in 300ms
+코드 하이라이트:     즉시 렌더링`
+  },
+  {
+    id: 'brunch',
+    name: '브런치스토리',
+    nameEn: 'Brunch Story',
+    category: '포털',
+    color: '#00C4C4',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/brunch.co.kr',
+    siteUrl: 'https://brunch.co.kr',
+    swatches: ['#00C4C4','#1A1A1A','#FAFAFA','#959595'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Brunch Story — DESIGN.md
+
+## Color
+Primary:             #00C4C4
+Primary Dark:        #00A0A0
+Background:          #FFFFFF
+Surface:             #FAFAFA
+Border:              #EBEBEB
+Text Primary:        #1A1A1A
+Text Secondary:      #959595
+Text Hint:           #BBBBBB
+
+## Typography
+Font:                Apple SD Gothic Neo · Noto Serif KR · system-ui
+Heading:             clamp(24px, 4vw, 42px) / 700 / -0.03em
+Sub Heading:         20px / 600
+Body:                17px / 400 / 2.0
+Author:              13px / 400 / #959595
+Caption:             13px / 400
+
+## Border Radius
+Button:              0px (sharp)
+Card:                0px (sharp)
+Avatar:              50%
+Image:               0px (sharp)
+
+## Spacing
+콘텐츠 max-width:   680px
+섹션 gap:            48px
+글 여백:             80px auto
+이미지 margin:       40px -24px
+
+## Key Components
+작가 페이지:         커버 이미지 + 프로필 + 구독 버튼
+글 목록:             카드형 · 제목 + 섬네일 + 발행일
+에디터:              Medium 스타일 · 깔끔한 타이포
+구독:                카카오 계정 · 뉴스레터 연동
+
+## Motion
+스크롤 진행:         progress bar top
+이미지 fade-in:      300ms ease`
+  },
+  {
+    id: 'instagram',
+    name: '인스타그램',
+    nameEn: 'Instagram',
+    category: '포털',
+    color: '#E1306C',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/instagram.com',
+    siteUrl: 'https://www.instagram.com',
+    swatches: ['#E1306C','#F09433','#833AB4','#000000'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Instagram — DESIGN.md
+
+## Color
+Primary Gradient:    linear-gradient(45deg, #F09433, #E6683C, #DC2743, #CC2366, #BC1888)
+Background:          #FFFFFF
+Surface:             #FAFAFA
+Border:              #DBDBDB
+Text Primary:        #000000
+Text Secondary:      #737373
+Like:                #FF3040
+Story Ring:          gradient (#F09433 → #BC1888)
+
+## Typography
+Font:                -apple-system · Pretendard · system-ui
+Heading:             16px / 600
+Body:                14px / 400 / 1.6
+Caption:             12px / 400
+Username:            14px / 600
+
+## Border Radius
+Post Image:          0px (피드) · 16px (릴스)
+Avatar:              50%
+Button:              8px
+Story:               50%
+Badge:               999px
+
+## Spacing
+GNB height:          56px
+피드 카드 간격:      12px
+이미지 비율:         1:1 · 4:5 · 16:9
+탭바 height:         44px (iOS)
+
+## Key Components
+피드:                이미지/영상 + 좋아요/댓글/공유/저장
+스토리:              상단 원형 · 24시간 소멸
+릴스:                세로 영상 · 무한스크롤
+DM:                  텍스트 + 이미지 + 릴스 공유
+
+## Motion
+스토리 로딩:         progress bar 자동재생
+릴스 스와이프:       vertical snap 300ms
+좋아요 더블탭:       하트 burst 400ms`
+  },
+
+  /* ── OTT ── */
+  {
+    id: 'tving',
+    name: '티빙',
+    nameEn: 'Tving',
+    category: 'OTT',
+    color: '#FF153C',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/tving.com',
+    siteUrl: 'https://www.tving.com',
+    swatches: ['#FF153C','#0D0D0D','#1A1A1A','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Tving — DESIGN.md
+
+## Color
+Primary:             #FF153C
+Primary Dark:        #CC0030
+Background:          #0D0D0D
+Surface:             #1A1A1A
+Surface High:        #282828
+Border:              #333333
+Text Primary:        #FFFFFF
+Text Secondary:      #AAAAAA
+Text Tertiary:       #666666
+Progress:            #FF153C
+Live Badge:          #FF153C
+
+## Typography
+Font:                Pretendard · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em / white
+Title:               15px / 700 / white
+Body:                14px / 400 / #AAAAAA
+Caption:             12px / 400 / #666666
+
+## Border Radius
+Thumbnail:           4px
+Button:              4px
+Badge:               4px
+Progress:            2px
+Sheet:               16px (상단)
+
+## Spacing
+GNB height:          60px
+카드 gap:            8px (모바일) · 16px (데스크톱)
+콘텐츠 padding:      16px
+탭바 height:         60px
+
+## Key Components
+GNB:                 #0D0D0D · TVING 로고(red/white) · 검색
+히어로:              full-bleed 포스터 · 그라데이션 · 제목 + 장르 + CTA
+콘텐츠 카드:         포스터(2:3) · 가로형(16:9) 구분
+LIVE:                실시간 채널 · 빨간 LIVE 뱃지
+
+## Motion
+히어로 전환:         crossfade 1000ms
+카드 hover:          scale(1.05) + glow 300ms`
+  },
+  {
+    id: 'wavve',
+    name: '웨이브',
+    nameEn: 'Wavve',
+    category: 'OTT',
+    color: '#3C52FF',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/wavve.com',
+    siteUrl: 'https://www.wavve.com',
+    swatches: ['#3C52FF','#0A0A14','#9999AA','#FFD700'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Wavve — DESIGN.md
+
+## Color
+Primary:             #3C52FF
+Primary Dark:        #2A3ECC
+Background:          #0A0A14
+Surface:             #14141F
+Surface High:        #1E1E30
+Border:              #2A2A40
+Text Primary:        #FFFFFF
+Text Secondary:      #9999AA
+Text Tertiary:       #555566
+Progress:            #3C52FF
+Premium:             #FFD700
+
+## Typography
+Font:                Pretendard · Noto Sans KR · system-ui
+Heading:             22px / 700 / -0.02em / white
+Title:               15px / 700 / white
+Body:                14px / 400 / #9999AA
+Caption:             12px / 400 / #555566
+
+## Border Radius
+Thumbnail:           6px
+Button:              6px
+Badge:               4px
+Progress:            2px
+Sheet:               20px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            10px (모바일) · 16px (데스크톱)
+콘텐츠 padding:      20px
+탭바 height:         56px
+
+## Key Components
+GNB:                 #0A0A14 · wavve 로고 · 검색
+히어로:              전체화면 배경 · 그라데이션 · 제목 + CTA
+콘텐츠 열:           영화 · TV · 키즈 · LIVE TV 카테고리
+독점 콘텐츠:         WAVVE 오리지널 배지
+
+## Motion
+배너 전환:           fade 800ms
+카드 진입:           stagger 50ms · translateY(12px) → 0`
+  },
+  {
+    id: 'coupangplay',
+    name: '쿠팡플레이',
+    nameEn: 'Coupang Play',
+    category: 'OTT',
+    color: '#1E4CE3',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/coupangplay.com',
+    siteUrl: 'https://www.coupangplay.com',
+    swatches: ['#1E4CE3','#E04E39','#0D0D14','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Coupang Play — DESIGN.md
+
+## Color
+Primary:             #1E4CE3
+Primary Dark:        #1438B0
+Background:          #0D0D14
+Surface:             #161620
+Surface High:        #20202C
+Border:              #2A2A38
+Text Primary:        #FFFFFF
+Text Secondary:      #AAAAAA
+Text Tertiary:       #666666
+Rocket:              #E04E39
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             22px / 700 / white
+Title:               15px / 700 / white
+Body:                14px / 400 / #AAAAAA
+Caption:             12px / 400 / #666666
+
+## Border Radius
+Thumbnail:           6px
+Button:              6px
+Badge:               4px
+Progress:            2px
+
+## Spacing
+GNB height:          56px
+카드 gap:            8px (모바일) · 12px (데스크톱)
+콘텐츠 padding:      16px
+탭바 height:         56px
+
+## Key Components
+GNB:                 dark · 쿠팡플레이 로고 · 검색
+스포츠:              실시간 스포츠 중계 (EPL, NBA 등)
+영화/드라마:         포스터(2:3) 그리드
+쿠팡 연동:           로켓배송 상품 광고 노출
+
+## Motion
+스포츠 라이브:       실시간 스코어 업데이트
+카드 hover:          scale(1.04) 250ms`
+  },
+  {
+    id: 'netflix',
+    name: '넷플릭스',
+    nameEn: 'Netflix',
+    category: 'OTT',
+    color: '#E50914',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/netflix.com',
+    siteUrl: 'https://www.netflix.com/kr',
+    swatches: ['#E50914','#141414','#1F1F1F','#B3B3B3'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Netflix — DESIGN.md
+
+## Color
+Primary:             #E50914
+Primary Dark:        #B00710
+Background:          #141414
+Surface:             #1F1F1F
+Surface High:        #2F2F2F
+Border:              #3D3D3D
+Text Primary:        #FFFFFF
+Text Secondary:      #B3B3B3
+Text Tertiary:       #808080
+N Red:               #E50914
+
+## Typography
+Font:                Netflix Sans · Noto Sans KR · system-ui
+Heading:             clamp(20px, 3vw, 48px) / 700 / white
+Title:               16px / 600 / white
+Body:                14px / 400 / #B3B3B3
+Caption:             11px / 400 / #808080
+
+## Border Radius
+Thumbnail:           4px
+Button:              4px
+Modal:               6px
+Progress:            2px
+
+## Spacing
+GNB height:          68px
+콘텐츠 padding:      3.5% (반응형)
+Row gap:             8px (모바일) · 4px (데스크톱)
+Row 간격:            40px
+
+## Key Components
+히어로:              full-bleed · 그라데이션 · 제목 + 설명 + 버튼
+콘텐츠 행:           장르별 가로 스크롤 · hover 시 확장(1.4×)
+재생 바:             빨강 · 10초 skip · 자막 설정
+프로필:              아바타(4종) + 어린이 모드
+
+## Motion
+히어로 fade-in:      2s ease (자동 재생 시작)
+카드 hover:          scale(1.4) + 정보 카드 300ms`
+  },
+  {
+    id: 'disneyplus',
+    name: '디즈니플러스',
+    nameEn: 'Disney+',
+    category: 'OTT',
+    color: '#1B47C8',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/disneyplus.com',
+    siteUrl: 'https://www.disneyplus.com/ko-kr',
+    swatches: ['#1B47C8','#040714','#0D1526','#F9F9F9'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Disney+ — DESIGN.md
+
+## Color
+Primary:             #1B47C8
+Primary Dark:        #1238A8
+Background:          #040714
+Surface:             #0D1526
+Surface High:        #1A2540
+Border:              #26385A
+Text Primary:        #F9F9F9
+Text Secondary:      #B3C3D9
+Text Tertiary:       #7A8FA8
+Disney Blue:         #1B47C8
+
+## Typography
+Font:                Avenir · Noto Sans KR · system-ui
+Heading:             clamp(20px, 4vw, 52px) / 700 / white
+Brand:               14px / 800 / 0.1em uppercase
+Body:                14px / 400 / #B3C3D9
+Caption:             12px / 400 / #7A8FA8
+
+## Border Radius
+Thumbnail:           6px
+Button:              6px
+Modal:               8px
+Avatar:              50%
+
+## Spacing
+GNB height:          64px
+콘텐츠 padding:      40px (데스크톱) · 16px (모바일)
+Row gap:             12px
+Row 간격:            40px
+
+## Key Components
+브랜드 탭:           Disney · Pixar · Marvel · Star Wars · Nat Geo
+히어로:              전체화면 · 브랜드 로고 + CTA
+콘텐츠 그리드:       16:9 썸네일 · hover 정보 카드
+그룹 시청:           GroupWatch · 동시 시청
+
+## Motion
+히어로 전환:         crossfade 800ms
+카드 hover:          scale(1.05) 250ms`
+  },
+  {
+    id: 'laftel',
+    name: '라프텔',
+    nameEn: 'Laftel',
+    category: 'OTT',
+    color: '#6C5CE7',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/laftel.net',
+    siteUrl: 'https://laftel.net',
+    swatches: ['#6C5CE7','#0D0D0D','#FF6B9D','#FFD700'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Laftel — DESIGN.md
+
+## Color
+Primary:             #6C5CE7
+Primary Dark:        #5A4BD1
+Background:          #0D0D0D
+Surface:             #1A1A1A
+Surface High:        #252525
+Border:              #333333
+Text Primary:        #FFFFFF
+Text Secondary:      #AAAAAA
+Text Tertiary:       #666666
+Premium:             #FFD700
+Sub Pink:            #FF6B9D
+
+## Typography
+Font:                Pretendard · Noto Sans KR · system-ui
+Heading:             22px / 700 / white
+Title:               15px / 700 / white
+Body:                14px / 400 / #AAAAAA
+Caption:             12px / 400 / #666666
+
+## Border Radius
+Thumbnail:           8px
+Button:              6px
+Badge:               4px
+Sheet:               16px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            12px (모바일) · 16px (데스크톱)
+콘텐츠 padding:      20px
+탭바 height:         56px
+
+## Key Components
+애니메이션:          자막 전문 · HD 화질
+큐레이션:            장르별 · 시즌별 정리
+자막:                한국어 · 일본어 CC
+멤버십:              무광고 · HD · 동시시청
+
+## Motion
+히어로 배너:         fade 600ms
+카드 hover:          scale(1.04) 200ms`
+  },
+  {
+    id: 'naverserieson',
+    name: '네이버시리즈온',
+    nameEn: 'Naver Series On',
+    category: 'OTT',
+    color: '#03C75A',
+    textOnColor: '#ffffff',
+    logoUrl: 'https://logo.clearbit.com/serieson.naver.com',
+    siteUrl: 'https://serieson.naver.com',
+    swatches: ['#03C75A','#1A1A1A','#242424','#FFFFFF'],
+    status: 'extracted',
+    date: '2026-05-20',
+    design: `# Naver Series On — DESIGN.md
+
+## Color
+Primary:             #03C75A
+Primary Dark:        #00A44B
+Background:          #1A1A1A
+Surface:             #242424
+Surface High:        #2E2E2E
+Border:              #3A3A3A
+Text Primary:        #FFFFFF
+Text Secondary:      #AAAAAA
+Text Tertiary:       #666666
+Naver Green:         #03C75A
+
+## Typography
+Font:                Noto Sans KR · system-ui
+Heading:             22px / 700 / white
+Title:               15px / 700 / white
+Body:                14px / 400 / #AAAAAA
+Caption:             12px / 400 / #666666
+
+## Border Radius
+Thumbnail:           6px
+Button:              4px
+Badge:               4px
+Sheet:               16px (상단)
+
+## Spacing
+GNB height:          56px
+카드 gap:            10px
+콘텐츠 padding:      16px
+탭바 height:         56px
+
+## Key Components
+웹툰 연동:           네이버 웹툰 · 시리즈 통합
+드라마:              nTV 오리지널 · TV 다시보기
+월정액:              시리즈온 멤버십 · 네이버플러스
+계정 연동:           네이버 로그인 · 포인트 사용
+
+## Motion
+포스터 hover:        scale(1.04) 250ms
+재생 진행:           progress bar real-time`
+  },
+];
+
+/* ── 카테고리 목록 (순서 고정) ── */
+const CATS = ['전체', '핀테크', '메신저', '이커머스', '배달', '뱅킹', '여행', '포털', 'OTT'];
+
+let currentCat = '전체';
+let currentItem = null;
+
+/* ── Filter 렌더링 ── */
+function renderFilter() {
+  const wrap = document.getElementById('filterInner');
+  CATS.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (cat === currentCat ? ' active' : '');
+    btn.dataset.cat = cat;
+    btn.textContent = cat;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentCat = cat;
+      renderCards();
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+/* ── Card 렌더링 ── */
+function renderCards() {
+  const grid = document.getElementById('cardGrid');
+  const empty = document.getElementById('gridEmpty');
+  const list = currentCat === '전체' ? DATA : DATA.filter(d => d.category === currentCat);
+
+  grid.innerHTML = '';
+
+  if (list.length === 0) {
+    grid.style.display = 'none';
+    empty.style.display = 'block';
+    return;
+  }
+  grid.style.display = 'grid';
+  empty.style.display = 'none';
+
+  list.forEach(item => {
+    const card = document.createElement('div');
+    card.className = 'card' + (item.status === 'extracted' ? ' is-extracted' : '');
+
+    const swatchHTML = item.swatches.map(c =>
+      `<div class="swatch" style="background:${c}"></div>`
+    ).join('');
+
+    const screenshotUrl = `https://image.thum.io/get/width/640/crop/400/delay/10000/${item.siteUrl}`;
+
+    card.innerHTML = `
+      <div class="card-thumb">
+        <div class="card-accent-line" style="background:${item.color}"></div>
+        <img
+          class="card-screenshot"
+          src="${screenshotUrl}"
+          alt="${item.name} 스크린샷"
+          loading="lazy"
+        />
+        <div class="card-logo-badge">
+          <img
+            class="card-logo"
+            src="${item.logoUrl}"
+            alt="${item.name}"
+            onerror="this.parentElement.style.display='none'"
+          />
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-name-row">
+          <div class="card-name">${item.name}</div>
+          <div class="card-swatches">${swatchHTML}</div>
+        </div>
+        <div class="card-meta">
+          <span class="cat-tag ${item.status === 'extracted' ? 'ready' : ''}">${item.category}</span>
+          <span class="card-date">${item.date ?? '—'}</span>
+          <a class="card-ext-link" href="${item.siteUrl}" target="_blank" rel="noopener" title="${item.name} 사이트 방문" onclick="event.stopPropagation()">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2H2.5A1.5 1.5 0 001 3.5v6A1.5 1.5 0 002.5 11h6A1.5 1.5 0 0010 9.5V7"/><path d="M7 1h4v4M11 1L5.5 6.5"/></svg>
+          </a>
+        </div>
+      </div>
+      ${item.status === 'pending' ? '<div class="pending-overlay"><div class="soon-badge">추출 예정</div></div>' : ''}
+    `;
+
+    if (item.status === 'extracted') {
+      card.addEventListener('click', () => openModal(item));
+    }
+    grid.appendChild(card);
+  });
+}
+
+/* ── Stats 업데이트 ── */
+function updateStats() {
+  document.getElementById('statTotal').textContent = DATA.length;
+  document.getElementById('statExtracted').textContent = DATA.filter(d => d.status === 'extracted').length;
+}
+
+/* ── Modal ── */
+function openModal(item) {
+  currentItem = item;
+  document.getElementById('modalBand').style.background = item.color;
+  document.getElementById('modalDot').style.background = item.color;
+  document.getElementById('modalName').textContent = item.name;
+  document.getElementById('modalCat').textContent = item.category;
+  document.getElementById('modalContent').innerHTML = renderMd(item.design);
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentItem = null;
+}
+
+/* ── DESIGN.md 렌더러 ── */
+function renderMd(md) {
+  if (!md) return '';
+  const lines = md.split('\n');
+  let html = '<div>';
+
+  lines.forEach(line => {
+    if (line.startsWith('# ')) {
+      html += `<div class="md-h1">${line.slice(2)}</div>`;
+    } else if (line.startsWith('## ')) {
+      html += `<div class="md-h2">${line.slice(3)}</div>`;
+    } else if (line.trim() === '') {
+      /* 빈 줄 무시 */
+    } else {
+      const colonIdx = line.indexOf(':');
+      if (colonIdx > 0 && colonIdx <= 22) {
+        const key = line.slice(0, colonIdx).trim();
+        const val = line.slice(colonIdx + 1).trim();
+        const colorMatch = val.match(/#[0-9a-fA-F]{3,8}/);
+        const chip = colorMatch
+          ? `<span class="color-chip" style="background:${colorMatch[0]}"></span>`
+          : '';
+        html += `<div class="md-row"><span class="md-key">${key}</span><span class="md-val">${chip}${escHtml(val)}</span></div>`;
+      } else {
+        html += `<div class="md-plain">${escHtml(line)}</div>`;
+      }
+    }
+  });
+
+  html += '</div>';
+  return html;
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── Download ── */
+function downloadMd() {
+  if (!currentItem?.design) return;
+  const blob = new Blob([currentItem.design], { type: 'text/markdown;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${currentItem.nameEn}_DESIGN.md`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+/* ── 이벤트 ── */
+document.getElementById('btnClose').addEventListener('click', closeModal);
+document.getElementById('btnDownload').addEventListener('click', downloadMd);
+document.getElementById('modalOverlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── Init ── */
+renderFilter();
+renderCards();
+updateStats();
+
+</script>
+</body>
+</html>
